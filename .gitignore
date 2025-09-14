@@ -1,0 +1,8 @@
+.venv
+detection/__pycache__
+storage/__pycache__
+utils/__pycache__
+tests/__pycache__
+frontend/__pycache__
+.env
+ENV_TEMPLATE

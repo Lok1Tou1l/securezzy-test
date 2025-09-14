@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Securezzy Dashboard</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Securezzy</h1>
+      <p>Lightweight security event monitor</p>
+    </header>
+    <main>
+      <section class="controls">
+        <button id="refresh">Refresh Events</button>
+        <button id="seed">Send Sample Event</button>
+      </section>
+      <section class="realtime">
+        <div class="stat">
+          <div class="label">Live Packets</div>
+          <div class="value" id="live-count">0</div>
+        </div>
+        <div class="stat">
+          <div class="label">Injection Alerts</div>
+          <div class="value" id="live-injection">0</div>
+        </div>
+        <div class="stat">
+          <div class="label">DDoS Alerts</div>
+          <div class="value" id="live-ddos">0</div>
+        </div>
+      </section>
+      <section>
+        <h3>Recent Live Events</h3>
+        <ul id="live-list"></ul>
+      </section>
+      <section>
+        <table id="events">
+          <thead>
+            <tr>
+              <th>Source IP</th>
+              <th>Method</th>
+              <th>Path</th>
+              <th>Body</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </section>
+      <section id="alerts"></section>
+    </main>
+    <script src="app.js"></script>
+  </body>
+  </html>
+
+

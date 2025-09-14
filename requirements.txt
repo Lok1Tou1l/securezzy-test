@@ -1,0 +1,13 @@
+# Core dependencies
+flask==3.0.3
+scapy==2.5.0
+
+# Utilities
+werkzeug==3.0.4    # Flask dependency, explicit for stability
+itsdangerous==2.2.0
+click==8.1.7
+
+# Optional (for testing)
+pytest==8.3.2
+requests==2.32.3
+python-dotenv==1.0.1
