@@ -3,16 +3,25 @@ from flask import make_response
 import json
 from queue import Queue, Empty
 from typing import List
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 
 from storage import (
     event_store,
     ddos_alert_store,
     injection_alert_store,
 )
-from detection.ddos import record_request as ddos_record_request, is_ddos
-from detection.injection import has_injection_signature
+from detection.ddos import record_request as ddos_record_request, is_ddos, analyze_ddos_threat
+from detection.injection import has_injection_signature, analyze_injection_signature
+from detection.whitelist import is_whitelisted, whitelist_manager
 from sniffer import run_sniffer
+
+# Optional enhanced detectors (graceful fallback if deps not installed)
+try:
+    from new.detection_engine import DetectionEngine  # type: ignore
+    from new.ml_detector import MLAnomalyDetector  # type: ignore
+except Exception:
+    DetectionEngine = None  # type: ignore
+    MLAnomalyDetector = None  # type: ignore
 import threading
 import os
 from dotenv import load_dotenv
@@ -91,54 +100,257 @@ def create_app() -> Flask:
     def list_injection_alerts() -> Any:
         return jsonify(injection_alert_store.get_all()), 200
 
-    def process_event(source_ip: str, path: str, method: str, body: str) -> Dict[str, Any]:
+    @app.get("/whitelist")
+    def get_whitelist() -> Any:
+        """Get whitelist statistics and entries."""
+        return jsonify(whitelist_manager.get_statistics()), 200
+
+    @app.post("/whitelist/ip")
+    def add_ip_whitelist() -> Any:
+        """Add IP to whitelist."""
+        payload: Dict[str, Any] = request.get_json(silent=True) or {}
+        ip: str = payload.get("ip", "")
+        reason: str = payload.get("reason", "Manual whitelist")
+        confidence: float = payload.get("confidence", 1.0)
+        expires_at: Optional[float] = payload.get("expires_at")
+        
+        if not ip:
+            return jsonify({"error": "IP address is required"}), 400
+        
+        success = whitelist_manager.add_ip_whitelist(ip, reason, confidence, expires_at)
+        if success:
+            return jsonify({"message": f"IP {ip} added to whitelist"}), 201
+        else:
+            return jsonify({"error": "Invalid IP address"}), 400
+
+    @app.post("/whitelist/pattern")
+    def add_pattern_whitelist() -> Any:
+        """Add pattern to whitelist."""
+        payload: Dict[str, Any] = request.get_json(silent=True) or {}
+        pattern: str = payload.get("pattern", "")
+        reason: str = payload.get("reason", "Manual pattern whitelist")
+        confidence: float = payload.get("confidence", 1.0)
+        expires_at: Optional[float] = payload.get("expires_at")
+        
+        if not pattern:
+            return jsonify({"error": "Pattern is required"}), 400
+        
+        success = whitelist_manager.add_pattern_whitelist(pattern, reason, confidence, expires_at)
+        if success:
+            return jsonify({"message": f"Pattern {pattern} added to whitelist"}), 201
+        else:
+            return jsonify({"error": "Invalid regex pattern"}), 400
+
+    @app.delete("/whitelist/<value>")
+    def remove_whitelist_entry(value: str) -> Any:
+        """Remove whitelist entry."""
+        success = whitelist_manager.remove_whitelist(value)
+        if success:
+            return jsonify({"message": f"Whitelist entry {value} removed"}), 200
+        else:
+            return jsonify({"error": "Whitelist entry not found"}), 404
+
+    @app.get("/analytics/injection")
+    def get_injection_analytics() -> Any:
+        """Get injection detection analytics."""
+        from detection.injection import get_injection_statistics
+        return jsonify(get_injection_statistics()), 200
+
+    @app.get("/analytics/ddos")
+    def get_ddos_analytics() -> Any:
+        """Get DDoS detection analytics."""
+        from detection.ddos import get_ddos_statistics
+        return jsonify(get_ddos_statistics()), 200
+
+    @app.post("/analyze")
+    def analyze_request() -> Any:
+        """Analyze a request for threats without storing it."""
+        payload: Dict[str, Any] = request.get_json(silent=True) or {}
+        source_ip: str = payload.get("source_ip", request.remote_addr or "unknown")
+        path: str = payload.get("path", "/")
+        method: str = payload.get("method", "GET")
+        body: str = payload.get("body", "")
+        user_agent: str = payload.get("user_agent", request.headers.get("User-Agent", ""))
+        country: str = payload.get("country", "")
+
+        # Optional ML anomaly score
+        anomaly_score: Optional[float] = None
+        if MLAnomalyDetector:
+            try:
+                ml = MLAnomalyDetector()
+                anomaly_score = ml.predict_anomaly({
+                    "source_ip": source_ip,
+                    "path": path,
+                    "method": method,
+                    "body": body,
+                    "user_agent": user_agent,
+                    "timestamp": request.headers.get("X-Request-Timestamp", ""),
+                    "headers": dict(request.headers),
+                })
+            except Exception:
+                anomaly_score = None
+        
+        # Perform analysis without storing
+        whitelist_result = is_whitelisted(source_ip, f"{path} {body}", {
+            "user_agent": user_agent,
+            "country": country,
+            "method": method
+        })
+        
+        is_whitelisted_flag, whitelist_confidence, whitelist_reason = whitelist_result
+        
+        # DDoS analysis
+        ddos_record_request(source_ip, path, method, user_agent, country)
+        ddos_analysis = analyze_ddos_threat(source_ip)
+        
+        # Injection analysis
+        path_injection_analysis = analyze_injection_signature(path)
+        body_injection_analysis = analyze_injection_signature(body)
+        
+        return jsonify({
+            "whitelisted": is_whitelisted_flag,
+            "whitelist_confidence": whitelist_confidence,
+            "whitelist_reason": whitelist_reason,
+            "ddos_analysis": ddos_analysis,
+            "injection_analysis": {
+                "path": path_injection_analysis,
+                "body": body_injection_analysis
+            },
+            "anomaly_score": anomaly_score
+        }), 200
+
+    def process_event(source_ip: str, path: str, method: str, body: str, 
+                     user_agent: str = "", country: str = "") -> Dict[str, Any]:
+        # Check whitelist first to reduce false positives
+        whitelist_result = is_whitelisted(source_ip, f"{path} {body}", {
+            "user_agent": user_agent,
+            "country": country,
+            "method": method
+        })
+        
+        is_whitelisted_flag, whitelist_confidence, whitelist_reason = whitelist_result
+        
         event: Dict[str, Any] = {
             "source_ip": source_ip,
             "path": path,
             "method": method,
             "body": body,
+            "user_agent": user_agent,
+            "country": country,
+            "whitelisted": is_whitelisted_flag,
+            "whitelist_confidence": whitelist_confidence,
+            "whitelist_reason": whitelist_reason,
         }
         event_store.add(event)
 
-        ddos_record_request(source_ip)
+        # Enhanced DDoS detection with additional metadata
+        ddos_record_request(source_ip, path, method, user_agent, country)
         ddos_flag = is_ddos(source_ip)
-        injection_flag = has_injection_signature(path) or has_injection_signature(body)
+        
+        # Enhanced injection detection with confidence scoring
+        path_injection_analysis = analyze_injection_signature(path)
+        body_injection_analysis = analyze_injection_signature(body)
+        
+        injection_flag = (path_injection_analysis["has_injection"] or 
+                         body_injection_analysis["has_injection"])
+        
+        # Get detailed DDoS analysis
+        ddos_analysis = analyze_ddos_threat(source_ip)
+        
+        # Optional additional rules engine for DDoS/injection from new.detection_engine
+        enhanced_ddos = False
+        enhanced_injection = False
+        if DetectionEngine:
+            try:
+                eng = DetectionEngine()
+                enhanced_ddos = bool(eng.detect_ddos({
+                    "source_ip": source_ip,
+                    "path": path,
+                    "method": method,
+                    "body": body,
+                    "user_agent": user_agent,
+                    "headers": {},
+                }))
+                enhanced_injection = bool(eng.detect_injection({
+                    "source_ip": source_ip,
+                    "path": path,
+                    "method": method,
+                    "body": body,
+                    "user_agent": user_agent,
+                    "headers": {},
+                }))
+            except Exception:
+                enhanced_ddos = False
+                enhanced_injection = False
 
-        if ddos_flag:
+        # Create alerts with enhanced information
+        if ddos_flag and not is_whitelisted_flag:
             ddos_alert_store.add(
                 {
                     "source_ip": source_ip,
-                    "reason": "threshold_exceeded",
+                    "reason": "enhanced_ddos_detection",
                     "path": path,
                     "method": method,
+                    "confidence": ddos_analysis.get("confidence", 0.0),
+                    "severity": ddos_analysis.get("severity", "medium"),
+                    "threats": ddos_analysis.get("threats", []),
+                    "recommendations": ddos_analysis.get("recommendations", []),
                 }
             )
 
-        if injection_flag:
+        if injection_flag and not is_whitelisted_flag:
+            # Use the analysis with higher confidence
+            injection_analysis = (path_injection_analysis if 
+                                path_injection_analysis["confidence"] > body_injection_analysis["confidence"] 
+                                else body_injection_analysis)
+            
             injection_alert_store.add(
                 {
                     "source_ip": source_ip,
-                    "reason": "injection_signature",
+                    "reason": "enhanced_injection_detection",
                     "path": path,
                     "method": method,
+                    "confidence": injection_analysis.get("confidence", 0.0),
+                    "severity": injection_analysis.get("severity", "medium"),
+                    "attack_types": injection_analysis.get("attack_types", []),
+                    "details": injection_analysis.get("details", []),
                 }
             )
 
+        # Publish enhanced event data
         publish(
             {
                 "type": "event",
                 "source_ip": source_ip,
                 "path": path,
                 "method": method,
-                "injection_suspected": injection_flag,
-                "ddos_suspected": ddos_flag,
+                "injection_suspected": injection_flag and not is_whitelisted_flag,
+                "ddos_suspected": ddos_flag and not is_whitelisted_flag,
+                "whitelisted": is_whitelisted_flag,
+                "injection_confidence": max(path_injection_analysis.get("confidence", 0.0),
+                                          body_injection_analysis.get("confidence", 0.0)),
+                "ddos_confidence": ddos_analysis.get("confidence", 0.0),
+                "injection_severity": (path_injection_analysis.get("severity", "none") if 
+                                     path_injection_analysis.get("confidence", 0.0) > body_injection_analysis.get("confidence", 0.0)
+                                     else body_injection_analysis.get("severity", "none")),
+                "ddos_severity": ddos_analysis.get("severity", "none"),
+                "enhanced_ddos": enhanced_ddos,
+                "enhanced_injection": enhanced_injection,
             }
         )
 
         return {
             "stored": True,
-            "ddos_suspected": ddos_flag,
-            "injection_suspected": injection_flag,
+            "ddos_suspected": ddos_flag and not is_whitelisted_flag,
+            "injection_suspected": injection_flag and not is_whitelisted_flag,
+            "whitelisted": is_whitelisted_flag,
+            "ddos_analysis": ddos_analysis,
+            "injection_analysis": {
+                "path": path_injection_analysis,
+                "body": body_injection_analysis
+            },
+            "enhanced_ddos": enhanced_ddos,
+            "enhanced_injection": enhanced_injection,
         }
 
     @app.post("/events")
@@ -148,7 +360,9 @@ def create_app() -> Flask:
         path: str = payload.get("path", "/")
         method: str = payload.get("method", "GET")
         body: str = payload.get("body", "")
-        result = process_event(source_ip, path, method, body)
+        user_agent: str = payload.get("user_agent", request.headers.get("User-Agent", ""))
+        country: str = payload.get("country", "")
+        result = process_event(source_ip, path, method, body, user_agent, country)
         return jsonify(result), 201
 
     # Start sniffer in background if enabled
@@ -166,6 +380,8 @@ def create_app() -> Flask:
                         event.get("path", "/"),
                         event.get("method", "OTHER"),
                         event.get("body", ""),
+                        event.get("user_agent", ""),
+                        event.get("country", ""),
                     )
                 except Exception:
                     pass

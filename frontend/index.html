@@ -5,52 +5,149 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Securezzy Dashboard</title>
     <link rel="stylesheet" href="styles.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
   </head>
   <body>
     <header>
-      <h1>Securezzy</h1>
-      <p>Lightweight security event monitor</p>
+      <div class="header-content">
+        <div class="brand">
+          <h1><i class="fas fa-shield-alt"></i> Securezzy</h1>
+          <p>Lightweight security event monitor</p>
+        </div>
+        <div class="header-controls">
+          <button id="theme-toggle" class="icon-btn" title="Toggle theme">
+            <i class="fas fa-moon"></i>
+          </button>
+          <div class="status-indicator">
+            <span class="status-dot" id="connection-status"></span>
+            <span id="connection-text">Connecting...</span>
+          </div>
+        </div>
+      </div>
     </header>
+    
     <main>
       <section class="controls">
-        <button id="refresh">Refresh Events</button>
-        <button id="seed">Send Sample Event</button>
+        <button id="refresh" class="btn-primary">
+          <i class="fas fa-sync-alt"></i> Refresh Events
+        </button>
+        <button id="seed" class="btn-secondary">
+          <i class="fas fa-bug"></i> Send Test Event
+        </button>
+        <button id="export" class="btn-outline">
+          <i class="fas fa-download"></i> Export
+        </button>
+        <button id="clear" class="btn-danger">
+          <i class="fas fa-trash"></i> Clear
+        </button>
       </section>
+      
       <section class="realtime">
-        <div class="stat">
-          <div class="label">Live Packets</div>
+        <div class="stat-card">
+          <div class="stat-header">
+            <i class="fas fa-eye"></i>
+            <span class="label">Live Packets</span>
+          </div>
           <div class="value" id="live-count">0</div>
+          <div class="trend" id="packets-trend">+0/min</div>
         </div>
-        <div class="stat">
-          <div class="label">Injection Alerts</div>
+        <div class="stat-card alert-stat">
+          <div class="stat-header">
+            <i class="fas fa-exclamation-triangle"></i>
+            <span class="label">SQL Injection</span>
+          </div>
           <div class="value" id="live-injection">0</div>
+          <div class="trend" id="injection-trend">+0/min</div>
         </div>
-        <div class="stat">
-          <div class="label">DDoS Alerts</div>
+        <div class="stat-card critical-stat">
+          <div class="stat-header">
+            <i class="fas fa-bomb"></i>
+            <span class="label">DDoS Alerts</span>
+          </div>
           <div class="value" id="live-ddos">0</div>
+          <div class="trend" id="ddos-trend">+0/min</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-header">
+            <i class="fas fa-clock"></i>
+            <span class="label">Uptime</span>
+          </div>
+          <div class="value" id="uptime">00:00:00</div>
+          <div class="trend">Running</div>
         </div>
       </section>
-      <section>
-        <h3>Recent Live Events</h3>
-        <ul id="live-list"></ul>
+
+      <section class="events-section">
+        <div class="section-header">
+          <h3><i class="fas fa-stream"></i> Recent Live Events</h3>
+          <div class="filters">
+            <input type="text" id="search" placeholder="Search events..." />
+            <select id="severity-filter">
+              <option value="">All Severity</option>
+              <option value="critical">Critical</option>
+              <option value="high">High</option>
+              <option value="medium">Medium</option>
+              <option value="low">Low</option>
+            </select>
+          </div>
+        </div>
+        <ul id="live-list" class="live-events"></ul>
       </section>
-      <section>
-        <table id="events">
-          <thead>
-            <tr>
-              <th>Source IP</th>
-              <th>Method</th>
-              <th>Path</th>
-              <th>Body</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
+      
+      <section class="table-section">
+        <div class="section-header">
+          <h3><i class="fas fa-table"></i> Event History</h3>
+          <div class="table-controls">
+            <span class="event-count">Showing <span id="visible-count">0</span> events</span>
+            <button id="auto-refresh-toggle" class="toggle-btn active">
+              <i class="fas fa-play"></i> Auto-refresh
+            </button>
+          </div>
+        </div>
+        <div class="table-wrapper">
+          <table id="events">
+            <thead>
+              <tr>
+                <th data-sort="timestamp">
+                  <i class="fas fa-clock"></i> Timestamp
+                  <i class="fas fa-sort sort-icon"></i>
+                </th>
+                <th data-sort="source_ip">
+                  <i class="fas fa-map-marker-alt"></i> Source IP
+                  <i class="fas fa-sort sort-icon"></i>
+                </th>
+                <th data-sort="method">
+                  <i class="fas fa-code"></i> Method
+                  <i class="fas fa-sort sort-icon"></i>
+                </th>
+                <th data-sort="path">
+                  <i class="fas fa-link"></i> Path
+                  <i class="fas fa-sort sort-icon"></i>
+                </th>
+                <th data-sort="body">
+                  <i class="fas fa-file-alt"></i> Body
+                  <i class="fas fa-sort sort-icon"></i>
+                </th>
+                <th>
+                  <i class="fas fa-flag"></i> Alerts
+                </th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <div class="table-footer">
+          <div class="pagination">
+            <button id="prev-page" disabled><i class="fas fa-chevron-left"></i></button>
+            <span id="page-info">Page 1 of 1</span>
+            <button id="next-page" disabled><i class="fas fa-chevron-right"></i></button>
+          </div>
+        </div>
       </section>
-      <section id="alerts"></section>
+      
+      <section id="alerts" class="alerts-container"></section>
     </main>
+    
     <script src="app.js"></script>
   </body>
-  </html>
-
-
+</html>

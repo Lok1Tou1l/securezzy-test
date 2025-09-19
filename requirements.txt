@@ -11,3 +11,10 @@ click==8.1.7
 pytest==8.3.2
 requests==2.32.3
 python-dotenv==1.0.1
+redis==5.0.7
+numpy==1.26.4
+scikit-learn==1.4.2
+joblib==1.4.2
+flask-limiter==3.8.0
+flask-talisman==1.1.0
+flask-jwt-extended==4.6.0
