@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, send_from_directory
 from flask import make_response
 import json
 from queue import Queue, Empty
@@ -19,7 +19,7 @@ from dotenv import load_dotenv
 
 
 def create_app() -> Flask:
-    app = Flask(__name__)
+    app = Flask(__name__, static_folder='frontend', static_url_path='')
 
     # Simple in-process pub/sub for Server-Sent Events (SSE)
     subscribers: List[Queue] = []
@@ -74,6 +74,14 @@ def create_app() -> Flask:
         resp.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization"
         resp.headers["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS"
         return resp
+
+    @app.route("/")
+    def index() -> Any:
+        return send_from_directory('frontend', 'index.html')
+    
+    @app.route("/<path:filename>")
+    def frontend_files(filename) -> Any:
+        return send_from_directory('frontend', filename)
 
     @app.get("/health")
     def health() -> Any:
@@ -189,5 +197,3 @@ app = create_app()
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
-
-

@@ -5,52 +5,156 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Securezzy Dashboard</title>
     <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   </head>
   <body>
-    <header>
-      <h1>Securezzy</h1>
-      <p>Lightweight security event monitor</p>
-    </header>
-    <main>
-      <section class="controls">
-        <button id="refresh">Refresh Events</button>
-        <button id="seed">Send Sample Event</button>
-      </section>
-      <section class="realtime">
-        <div class="stat">
-          <div class="label">Live Packets</div>
-          <div class="value" id="live-count">0</div>
+    <div class="app-container">
+      <header>
+        <div class="header-content">
+          <div class="brand">
+            <img src="Assets/SecurEZZY.png" alt="Securezzy Logo" class="logo">
+            <div class="brand-text">
+              <h1>Securezzy</h1>
+              <p>Real-time security monitoring dashboard</p>
+            </div>
+          </div>
+          <div class="status-indicator">
+            <div class="connection-status" id="connection-status">
+              <span class="indicator"></span>
+              <span class="text">Disconnected</span>
+            </div>
+          </div>
         </div>
-        <div class="stat">
-          <div class="label">Injection Alerts</div>
-          <div class="value" id="live-injection">0</div>
+      </header>
+      
+      <main>
+        <section class="control-panel">
+          <div class="controls">
+            <button id="refresh" class="btn-primary">
+              <span class="icon">🔄</span>
+              Refresh Events
+            </button>
+            <button id="seed" class="btn-secondary">
+              <span class="icon">⚡</span>
+              Send Test Event
+            </button>
+            <button id="clear-events" class="btn-danger">
+              <span class="icon">🗑️</span>
+              Clear Events
+            </button>
+          </div>
+          
+          <div class="filters">
+            <input type="text" id="search-filter" placeholder="Search events..." />
+            <select id="severity-filter">
+              <option value="">All Severities</option>
+              <option value="low">Low</option>
+              <option value="medium">Medium</option>
+              <option value="high">High</option>
+              <option value="critical">Critical</option>
+            </select>
+            <select id="type-filter">
+              <option value="">All Types</option>
+              <option value="injection">SQL Injection</option>
+              <option value="ddos">DDoS Attack</option>
+              <option value="normal">Normal Traffic</option>
+            </select>
+          </div>
+        </section>
+
+        <section class="metrics-dashboard">
+          <div class="stat-card">
+            <div class="stat-icon">📊</div>
+            <div class="stat-content">
+              <div class="label">Total Events</div>
+              <div class="value" id="live-count">0</div>
+              <div class="change positive" id="count-change">+0</div>
+            </div>
+          </div>
+          
+          <div class="stat-card alert-card">
+            <div class="stat-icon">🚨</div>
+            <div class="stat-content">
+              <div class="label">Injection Attempts</div>
+              <div class="value" id="live-injection">0</div>
+              <div class="change negative" id="injection-change">+0</div>
+            </div>
+          </div>
+          
+          <div class="stat-card alert-card">
+            <div class="stat-icon">⚡</div>
+            <div class="stat-content">
+              <div class="label">DDoS Attempts</div>
+              <div class="value" id="live-ddos">0</div>
+              <div class="change negative" id="ddos-change">+0</div>
+            </div>
+          </div>
+          
+          <div class="stat-card">
+            <div class="stat-icon">🔐</div>
+            <div class="stat-content">
+              <div class="label">Threat Level</div>
+              <div class="value threat-level" id="threat-level">LOW</div>
+              <div class="change" id="threat-change">Stable</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="live-events-section">
+          <div class="section-header">
+            <h3>🔴 Live Event Stream</h3>
+            <button id="pause-stream" class="btn-toggle">Pause</button>
+          </div>
+          <div class="live-events-container">
+            <ul id="live-list"></ul>
+          </div>
+        </section>
+
+        <section class="events-table-section">
+          <div class="section-header">
+            <h3>📋 Event History</h3>
+            <div class="pagination-controls">
+              <button id="prev-page" disabled>Previous</button>
+              <span id="page-info">Page 1 of 1</span>
+              <button id="next-page" disabled>Next</button>
+            </div>
+          </div>
+          
+          <div class="table-wrapper">
+            <table id="events">
+              <thead>
+                <tr>
+                  <th>Timestamp</th>
+                  <th>Source IP</th>
+                  <th>Method</th>
+                  <th>Path</th>
+                  <th>Body</th>
+                  <th>Threat Level</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </section>
+
+        <div id="alerts" class="alert-container"></div>
+      </main>
+    </div>
+
+    <!-- Modal for event details -->
+    <div id="event-modal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Event Details</h3>
+          <button class="modal-close">&times;</button>
         </div>
-        <div class="stat">
-          <div class="label">DDoS Alerts</div>
-          <div class="value" id="live-ddos">0</div>
-        </div>
-      </section>
-      <section>
-        <h3>Recent Live Events</h3>
-        <ul id="live-list"></ul>
-      </section>
-      <section>
-        <table id="events">
-          <thead>
-            <tr>
-              <th>Source IP</th>
-              <th>Method</th>
-              <th>Path</th>
-              <th>Body</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-      </section>
-      <section id="alerts"></section>
-    </main>
+        <div class="modal-body" id="modal-body"></div>
+      </div>
+    </div>
+
     <script src="app.js"></script>
   </body>
-  </html>
-
-
+</html>
