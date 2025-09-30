@@ -1,0 +1,1000 @@
+{
+  "category_results": {
+    "rule_benign_cases": {
+      "results": [
+        {
+          "input": "hello world",
+          "expected_malicious": false,
+          "expected_decision": "rule_benign",
+          "predicted_malicious": false,
+          "decision_point": "rule_benign",
+          "correct_prediction": true,
+          "correct_decision": true,
+          "pipeline_result": {
+            "is_malicious": false,
+            "confidence": 1.0,
+            "attack_type": null,
+            "attack_confidence": null,
+            "rule_result": 0,
+            "pipeline_steps": [
+              "input_validation",
+              "rule_filter"
+            ],
+            "decision_point": "rule_benign",
+            "rule_time_ms": 0.0,
+            "ml_time_ms": 0,
+            "total_time_ms": 0.0
+          }
+        },
+        {
+          "input": "user@example.com",
+          "expected_malicious": false,
+          "expected_decision": "rule_benign",
+          "predicted_malicious": false,
+          "decision_point": "rule_benign",
+          "correct_prediction": true,
+          "correct_decision": true,
+          "pipeline_result": {
+            "is_malicious": false,
+            "confidence": 1.0,
+            "attack_type": null,
+            "attack_confidence": null,
+            "rule_result": 0,
+            "pipeline_steps": [
+              "input_validation",
+              "rule_filter"
+            ],
+            "decision_point": "rule_benign",
+            "rule_time_ms": 0.0,
+            "ml_time_ms": 0,
+            "total_time_ms": 0.0
+          }
+        },
+        {
+          "input": "search query",
+          "expected_malicious": false,
+          "expected_decision": "rule_benign",
+          "predicted_malicious": false,
+          "decision_point": "rule_benign",
+          "correct_prediction": true,
+          "correct_decision": true,
+          "pipeline_result": {
+            "is_malicious": false,
+            "confidence": 1.0,
+            "attack_type": null,
+            "attack_confidence": null,
+            "rule_result": 0,
+            "pipeline_steps": [
+              "input_validation",
+              "rule_filter"
+            ],
+            "decision_point": "rule_benign",
+            "rule_time_ms": 0.0,
+            "ml_time_ms": 0,
+            "total_time_ms": 0.0
+          }
+        },
+        {
+          "input": "12345",
+          "expected_malicious": false,
+          "expected_decision": "rule_benign",
+          "predicted_malicious": false,
+          "decision_point": "rule_benign",
+          "correct_prediction": true,
+          "correct_decision": true,
+          "pipeline_result": {
+            "is_malicious": false,
+            "confidence": 1.0,
+            "attack_type": null,
+            "attack_confidence": null,
+            "rule_result": 0,
+            "pipeline_steps": [
+              "input_validation",
+              "rule_filter"
+            ],
+            "decision_point": "rule_benign",
+            "rule_time_ms": 0.0,
+            "ml_time_ms": 0,
+            "total_time_ms": 0.0
+          }
+        },
+        {
+          "input": "2023-12-25",
+          "expected_malicious": false,
+          "expected_decision": "rule_benign",
+          "predicted_malicious": false,
+          "decision_point": "rule_benign",
+          "correct_prediction": true,
+          "correct_decision": true,
+          "pipeline_result": {
+            "is_malicious": false,
+            "confidence": 1.0,
+            "attack_type": null,
+            "attack_confidence": null,
+            "rule_result": 0,
+            "pipeline_steps": [
+              "input_validation",
+              "rule_filter"
+            ],
+            "decision_point": "rule_benign",
+            "rule_time_ms": 0.9977817535400391,
+            "ml_time_ms": 0,
+            "total_time_ms": 0.9977817535400391
+          }
+        },
+        {
+          "input": "normal user input",
+          "expected_malicious": false,
+          "expected_decision": "rule_benign",
+          "predicted_malicious": false,
+          "decision_point": "rule_benign",
+          "correct_prediction": true,
+          "correct_decision": true,
+          "pipeline_result": {
+            "is_malicious": false,
+            "confidence": 1.0,
+            "attack_type": null,
+            "attack_confidence": null,
+            "rule_result": 0,
+            "pipeline_steps": [
+              "input_validation",
+              "rule_filter"
+            ],
+            "decision_point": "rule_benign",
+            "rule_time_ms": 0.0,
+            "ml_time_ms": 0,
+            "total_time_ms": 0.0
+          }
+        },
+        {
+          "input": "product-name-123",
+          "expected_malicious": false,
+          "expected_decision": "rule_benign",
+          "predicted_malicious": false,
+          "decision_point": "rule_benign",
+          "correct_prediction": true,
+          "correct_decision": true,
+          "pipeline_result": {
+            "is_malicious": false,
+            "confidence": 1.0,
+            "attack_type": null,
+            "attack_confidence": null,
+            "rule_result": 0,
+            "pipeline_steps": [
+              "input_validation",
+              "rule_filter"
+            ],
+            "decision_point": "rule_benign",
+            "rule_time_ms": 0.0,
+            "ml_time_ms": 0,
+            "total_time_ms": 0.0
+          }
+        },
+        {
+          "input": "simple text",
+          "expected_malicious": false,
+          "expected_decision": "rule_benign",
+          "predicted_malicious": false,
+          "decision_point": "rule_benign",
+          "correct_prediction": true,
+          "correct_decision": true,
+          "pipeline_result": {
+            "is_malicious": false,
+            "confidence": 1.0,
+            "attack_type": null,
+            "attack_confidence": null,
+            "rule_result": 0,
+            "pipeline_steps": [
+              "input_validation",
+              "rule_filter"
+            ],
+            "decision_point": "rule_benign",
+            "rule_time_ms": 0.0,
+            "ml_time_ms": 0,
+            "total_time_ms": 0.0
+          }
+        }
+      ],
+      "accuracy": 100.0,
+      "correct": 8,
+      "total": 8
+    },
+    "rule_malicious_cases": {
+      "results": [
+        {
+          "input": "'; DROP TABLE users; --",
+          "expected_malicious": true,
+          "expected_decision": "rule_malicious",
+          "predicted_malicious": true,
+          "decision_point": "rule_malicious",
+          "correct_prediction": true,
+          "correct_decision": true,
+          "pipeline_result": {
+            "is_malicious": true,
+            "confidence": 1.0,
+            "attack_type": "rule_detected",
+            "attack_confidence": 1.0,
+            "rule_result": 1,
+            "pipeline_steps": [
+              "input_validation",
+              "rule_filter"
+            ],
+            "decision_point": "rule_malicious",
+            "rule_time_ms": 0.0,
+            "ml_time_ms": 0,
+            "total_time_ms": 0.0
+          }
+        },
+        {
+          "input": "<script>alert('XSS')</script>",
+          "expected_malicious": true,
+          "expected_decision": "rule_malicious",
+          "predicted_malicious": true,
+          "decision_point": "rule_malicious",
+          "correct_prediction": true,
+          "correct_decision": true,
+          "pipeline_result": {
+            "is_malicious": true,
+            "confidence": 1.0,
+            "attack_type": "rule_detected",
+            "attack_confidence": 1.0,
+            "rule_result": 1,
+            "pipeline_steps": [
+              "input_validation",
+              "rule_filter"
+            ],
+            "decision_point": "rule_malicious",
+            "rule_time_ms": 0.0,
+            "ml_time_ms": 0,
+            "total_time_ms": 0.0
+          }
+        },
+        {
+          "input": "javascript:alert('xss')",
+          "expected_malicious": true,
+          "expected_decision": "rule_malicious",
+          "predicted_malicious": true,
+          "decision_point": "rule_malicious",
+          "correct_prediction": true,
+          "correct_decision": true,
+          "pipeline_result": {
+            "is_malicious": true,
+            "confidence": 1.0,
+            "attack_type": "rule_detected",
+            "attack_confidence": 1.0,
+            "rule_result": 1,
+            "pipeline_steps": [
+              "input_validation",
+              "rule_filter"
+            ],
+            "decision_point": "rule_malicious",
+            "rule_time_ms": 0.0,
+            "ml_time_ms": 0,
+            "total_time_ms": 0.0
+          }
+        },
+        {
+          "input": "; ls -la",
+          "expected_malicious": true,
+          "expected_decision": "rule_malicious",
+          "predicted_malicious": false,
+          "decision_point": "rule_benign",
+          "correct_prediction": false,
+          "correct_decision": false,
+          "pipeline_result": {
+            "is_malicious": false,
+            "confidence": 1.0,
+            "attack_type": null,
+            "attack_confidence": null,
+            "rule_result": 0,
+            "pipeline_steps": [
+              "input_validation",
+              "rule_filter"
+            ],
+            "decision_point": "rule_benign",
+            "rule_time_ms": 0.0,
+            "ml_time_ms": 0,
+            "total_time_ms": 0.0
+          }
+        },
+        {
+          "input": "../../../etc/passwd",
+          "expected_malicious": true,
+          "expected_decision": "rule_malicious",
+          "predicted_malicious": true,
+          "decision_point": "rule_malicious",
+          "correct_prediction": true,
+          "correct_decision": true,
+          "pipeline_result": {
+            "is_malicious": true,
+            "confidence": 1.0,
+            "attack_type": "rule_detected",
+            "attack_confidence": 1.0,
+            "rule_result": 1,
+            "pipeline_steps": [
+              "input_validation",
+              "rule_filter"
+            ],
+            "decision_point": "rule_malicious",
+            "rule_time_ms": 0.0,
+            "ml_time_ms": 0,
+            "total_time_ms": 0.0
+          }
+        },
+        {
+          "input": "<iframe src=javascript:alert(1)></iframe>",
+          "expected_malicious": true,
+          "expected_decision": "rule_malicious",
+          "predicted_malicious": true,
+          "decision_point": "rule_malicious",
+          "correct_prediction": true,
+          "correct_decision": true,
+          "pipeline_result": {
+            "is_malicious": true,
+            "confidence": 1.0,
+            "attack_type": "rule_detected",
+            "attack_confidence": 1.0,
+            "rule_result": 1,
+            "pipeline_steps": [
+              "input_validation",
+              "rule_filter"
+            ],
+            "decision_point": "rule_malicious",
+            "rule_time_ms": 0.0,
+            "ml_time_ms": 0,
+            "total_time_ms": 0.0
+          }
+        },
+        {
+          "input": "'; EXEC xp_cmdshell('dir'); --",
+          "expected_malicious": true,
+          "expected_decision": "rule_malicious",
+          "predicted_malicious": true,
+          "decision_point": "rule_malicious",
+          "correct_prediction": true,
+          "correct_decision": true,
+          "pipeline_result": {
+            "is_malicious": true,
+            "confidence": 1.0,
+            "attack_type": "rule_detected",
+            "attack_confidence": 1.0,
+            "rule_result": 1,
+            "pipeline_steps": [
+              "input_validation",
+              "rule_filter"
+            ],
+            "decision_point": "rule_malicious",
+            "rule_time_ms": 0.0,
+            "ml_time_ms": 0,
+            "total_time_ms": 0.0
+          }
+        },
+        {
+          "input": "| whoami",
+          "expected_malicious": true,
+          "expected_decision": "rule_malicious",
+          "predicted_malicious": false,
+          "decision_point": "rule_benign",
+          "correct_prediction": false,
+          "correct_decision": false,
+          "pipeline_result": {
+            "is_malicious": false,
+            "confidence": 1.0,
+            "attack_type": null,
+            "attack_confidence": null,
+            "rule_result": 0,
+            "pipeline_steps": [
+              "input_validation",
+              "rule_filter"
+            ],
+            "decision_point": "rule_benign",
+            "rule_time_ms": 0.0,
+            "ml_time_ms": 0,
+            "total_time_ms": 0.0
+          }
+        }
+      ],
+      "accuracy": 75.0,
+      "correct": 6,
+      "total": 8
+    },
+    "rule_ambiguous_ml_cases": {
+      "results": [
+        {
+          "input": "SELECT name FROM products",
+          "expected_malicious": null,
+          "expected_decision": "ml_prediction",
+          "predicted_malicious": false,
+          "decision_point": "rule_benign",
+          "correct_prediction": true,
+          "correct_decision": false,
+          "pipeline_result": {
+            "is_malicious": false,
+            "confidence": 1.0,
+            "attack_type": null,
+            "attack_confidence": null,
+            "rule_result": 0,
+            "pipeline_steps": [
+              "input_validation",
+              "rule_filter"
+            ],
+            "decision_point": "rule_benign",
+            "rule_time_ms": 0.0,
+            "ml_time_ms": 0,
+            "total_time_ms": 0.0
+          }
+        },
+        {
+          "input": "ORDER BY created_date",
+          "expected_malicious": null,
+          "expected_decision": "ml_prediction",
+          "predicted_malicious": false,
+          "decision_point": "rule_benign",
+          "correct_prediction": true,
+          "correct_decision": false,
+          "pipeline_result": {
+            "is_malicious": false,
+            "confidence": 1.0,
+            "attack_type": null,
+            "attack_confidence": null,
+            "rule_result": 0,
+            "pipeline_steps": [
+              "input_validation",
+              "rule_filter"
+            ],
+            "decision_point": "rule_benign",
+            "rule_time_ms": 0.0,
+            "ml_time_ms": 0,
+            "total_time_ms": 0.0
+          }
+        },
+        {
+          "input": "<p>Hello world</p>",
+          "expected_malicious": null,
+          "expected_decision": "ml_prediction",
+          "predicted_malicious": false,
+          "decision_point": "ml_prediction",
+          "correct_prediction": true,
+          "correct_decision": true,
+          "pipeline_result": {
+            "is_malicious": false,
+            "confidence": 0.14717179536819458,
+            "attack_type": null,
+            "attack_confidence": null,
+            "rule_result": 2,
+            "pipeline_steps": [
+              "input_validation",
+              "rule_filter",
+              "ml_preprocessing",
+              "ml_binary"
+            ],
+            "decision_point": "ml_prediction",
+            "rule_time_ms": 0.0,
+            "ml_time_ms": 250.85091590881348,
+            "total_time_ms": 250.85091590881348
+          }
+        },
+        {
+          "input": "UPDATE profile SET name='John'",
+          "expected_malicious": null,
+          "expected_decision": "ml_prediction",
+          "predicted_malicious": false,
+          "decision_point": "ml_prediction",
+          "correct_prediction": true,
+          "correct_decision": true,
+          "pipeline_result": {
+            "is_malicious": false,
+            "confidence": 0.07749082148075104,
+            "attack_type": null,
+            "attack_confidence": null,
+            "rule_result": 2,
+            "pipeline_steps": [
+              "input_validation",
+              "rule_filter",
+              "ml_preprocessing",
+              "ml_binary"
+            ],
+            "decision_point": "ml_prediction",
+            "rule_time_ms": 0.0,
+            "ml_time_ms": 64.68915939331055,
+            "total_time_ms": 64.68915939331055
+          }
+        },
+        {
+          "input": "function test() { return true; }",
+          "expected_malicious": null,
+          "expected_decision": "ml_prediction",
+          "predicted_malicious": true,
+          "decision_point": "ml_prediction",
+          "correct_prediction": true,
+          "correct_decision": true,
+          "pipeline_result": {
+            "is_malicious": true,
+            "confidence": 0.8338627815246582,
+            "attack_type": "commandi",
+            "attack_confidence": 0.9840093851089478,
+            "rule_result": 2,
+            "pipeline_steps": [
+              "input_validation",
+              "rule_filter",
+              "ml_preprocessing",
+              "ml_binary",
+              "ml_multiclass"
+            ],
+            "decision_point": "ml_prediction",
+            "rule_time_ms": 0.0,
+            "ml_time_ms": 190.55867195129395,
+            "total_time_ms": 190.55867195129395
+          }
+        },
+        {
+          "input": "%20%21%40%23",
+          "expected_malicious": null,
+          "expected_decision": "ml_prediction",
+          "predicted_malicious": true,
+          "decision_point": "ml_prediction",
+          "correct_prediction": true,
+          "correct_decision": true,
+          "pipeline_result": {
+            "is_malicious": true,
+            "confidence": 0.9512357115745544,
+            "attack_type": "traversal",
+            "attack_confidence": 0.9780561923980713,
+            "rule_result": 2,
+            "pipeline_steps": [
+              "input_validation",
+              "rule_filter",
+              "ml_preprocessing",
+              "ml_binary",
+              "ml_multiclass"
+            ],
+            "decision_point": "ml_prediction",
+            "rule_time_ms": 0.0,
+            "ml_time_ms": 1193.2899951934814,
+            "total_time_ms": 1193.2899951934814
+          }
+        },
+        {
+          "input": "search with 'quotes'",
+          "expected_malicious": null,
+          "expected_decision": "ml_prediction",
+          "predicted_malicious": false,
+          "decision_point": "rule_benign",
+          "correct_prediction": true,
+          "correct_decision": false,
+          "pipeline_result": {
+            "is_malicious": false,
+            "confidence": 1.0,
+            "attack_type": null,
+            "attack_confidence": null,
+            "rule_result": 0,
+            "pipeline_steps": [
+              "input_validation",
+              "rule_filter"
+            ],
+            "decision_point": "rule_benign",
+            "rule_time_ms": 0.0,
+            "ml_time_ms": 0,
+            "total_time_ms": 0.0
+          }
+        },
+        {
+          "input": "data.json",
+          "expected_malicious": null,
+          "expected_decision": "ml_prediction",
+          "predicted_malicious": false,
+          "decision_point": "rule_benign",
+          "correct_prediction": true,
+          "correct_decision": false,
+          "pipeline_result": {
+            "is_malicious": false,
+            "confidence": 1.0,
+            "attack_type": null,
+            "attack_confidence": null,
+            "rule_result": 0,
+            "pipeline_steps": [
+              "input_validation",
+              "rule_filter"
+            ],
+            "decision_point": "rule_benign",
+            "rule_time_ms": 0.0,
+            "ml_time_ms": 0,
+            "total_time_ms": 0.0
+          }
+        }
+      ],
+      "accuracy": 0,
+      "correct": 0,
+      "total": 8
+    },
+    "mixed_attack_cases": {
+      "results": [
+        {
+          "input": "admin' OR '1'='1",
+          "expected_malicious": true,
+          "expected_decision": "rule_malicious",
+          "predicted_malicious": true,
+          "decision_point": "ml_prediction",
+          "correct_prediction": true,
+          "correct_decision": false,
+          "pipeline_result": {
+            "is_malicious": true,
+            "confidence": 0.9615179896354675,
+            "attack_type": "sqli",
+            "attack_confidence": 0.58122318983078,
+            "rule_result": 2,
+            "pipeline_steps": [
+              "input_validation",
+              "rule_filter",
+              "ml_preprocessing",
+              "ml_binary",
+              "ml_multiclass"
+            ],
+            "decision_point": "ml_prediction",
+            "rule_time_ms": 0.0,
+            "ml_time_ms": 234.66205596923828,
+            "total_time_ms": 234.66205596923828
+          }
+        },
+        {
+          "input": "1' UNION SELECT password",
+          "expected_malicious": true,
+          "expected_decision": "rule_malicious",
+          "predicted_malicious": true,
+          "decision_point": "rule_malicious",
+          "correct_prediction": true,
+          "correct_decision": true,
+          "pipeline_result": {
+            "is_malicious": true,
+            "confidence": 1.0,
+            "attack_type": "rule_detected",
+            "attack_confidence": 1.0,
+            "rule_result": 1,
+            "pipeline_steps": [
+              "input_validation",
+              "rule_filter"
+            ],
+            "decision_point": "rule_malicious",
+            "rule_time_ms": 0.0,
+            "ml_time_ms": 0,
+            "total_time_ms": 0.0
+          }
+        },
+        {
+          "input": "<img src=x onerror=alert(1)>",
+          "expected_malicious": true,
+          "expected_decision": "rule_malicious",
+          "predicted_malicious": true,
+          "decision_point": "rule_malicious",
+          "correct_prediction": true,
+          "correct_decision": true,
+          "pipeline_result": {
+            "is_malicious": true,
+            "confidence": 1.0,
+            "attack_type": "rule_detected",
+            "attack_confidence": 1.0,
+            "rule_result": 1,
+            "pipeline_steps": [
+              "input_validation",
+              "rule_filter"
+            ],
+            "decision_point": "rule_malicious",
+            "rule_time_ms": 0.0,
+            "ml_time_ms": 0,
+            "total_time_ms": 0.0
+          }
+        },
+        {
+          "input": "SELECT * WHERE id=1",
+          "expected_malicious": null,
+          "expected_decision": "ml_prediction",
+          "predicted_malicious": false,
+          "decision_point": "ml_prediction",
+          "correct_prediction": true,
+          "correct_decision": true,
+          "pipeline_result": {
+            "is_malicious": false,
+            "confidence": 0.007085798773914576,
+            "attack_type": null,
+            "attack_confidence": null,
+            "rule_result": 2,
+            "pipeline_steps": [
+              "input_validation",
+              "rule_filter",
+              "ml_preprocessing",
+              "ml_binary"
+            ],
+            "decision_point": "ml_prediction",
+            "rule_time_ms": 0.0,
+            "ml_time_ms": 88.95301818847656,
+            "total_time_ms": 88.95301818847656
+          }
+        }
+      ],
+      "accuracy": 0,
+      "correct": 3,
+      "total": 4
+    },
+    "edge_cases": {
+      "results": [
+        {
+          "input": "",
+          "expected_malicious": false,
+          "expected_decision": "empty_input",
+          "predicted_malicious": false,
+          "decision_point": "empty_input",
+          "correct_prediction": true,
+          "correct_decision": true,
+          "pipeline_result": {
+            "is_malicious": false,
+            "confidence": 1.0,
+            "attack_type": null,
+            "attack_confidence": null,
+            "rule_result": 0,
+            "pipeline_steps": [
+              "input_validation"
+            ],
+            "decision_point": "empty_input",
+            "total_time_ms": 0.0
+          }
+        },
+        {
+          "input": "   ",
+          "expected_malicious": false,
+          "expected_decision": "rule_benign",
+          "predicted_malicious": false,
+          "decision_point": "empty_input",
+          "correct_prediction": true,
+          "correct_decision": false,
+          "pipeline_result": {
+            "is_malicious": false,
+            "confidence": 1.0,
+            "attack_type": null,
+            "attack_confidence": null,
+            "rule_result": 0,
+            "pipeline_steps": [
+              "input_validation"
+            ],
+            "decision_point": "empty_input",
+            "total_time_ms": 0.0
+          }
+        },
+        {
+          "input": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "expected_malicious": false,
+          "expected_decision": "rule_benign",
+          "predicted_malicious": false,
+          "decision_point": "rule_benign",
+          "correct_prediction": true,
+          "correct_decision": true,
+          "pipeline_result": {
+            "is_malicious": false,
+            "confidence": 1.0,
+            "attack_type": null,
+            "attack_confidence": null,
+            "rule_result": 0,
+            "pipeline_steps": [
+              "input_validation",
+              "rule_filter"
+            ],
+            "decision_point": "rule_benign",
+            "rule_time_ms": 0.0,
+            "ml_time_ms": 0,
+            "total_time_ms": 0.0
+          }
+        },
+        {
+          "input": "''''''''''''''''''''''''''''''''''''''''''''''''''",
+          "expected_malicious": null,
+          "expected_decision": "ml_prediction",
+          "predicted_malicious": false,
+          "decision_point": "rule_benign",
+          "correct_prediction": true,
+          "correct_decision": false,
+          "pipeline_result": {
+            "is_malicious": false,
+            "confidence": 1.0,
+            "attack_type": null,
+            "attack_confidence": null,
+            "rule_result": 0,
+            "pipeline_steps": [
+              "input_validation",
+              "rule_filter"
+            ],
+            "decision_point": "rule_benign",
+            "rule_time_ms": 0.0,
+            "ml_time_ms": 0,
+            "total_time_ms": 0.0
+          }
+        },
+        {
+          "input": "<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>",
+          "expected_malicious": null,
+          "expected_decision": "ml_prediction",
+          "predicted_malicious": true,
+          "decision_point": "ml_prediction",
+          "correct_prediction": true,
+          "correct_decision": true,
+          "pipeline_result": {
+            "is_malicious": true,
+            "confidence": 0.7351053953170776,
+            "attack_type": "xss",
+            "attack_confidence": 1.0,
+            "rule_result": 2,
+            "pipeline_steps": [
+              "input_validation",
+              "rule_filter",
+              "ml_preprocessing",
+              "ml_binary",
+              "ml_multiclass"
+            ],
+            "decision_point": "ml_prediction",
+            "rule_time_ms": 0.0,
+            "ml_time_ms": 139.3728256225586,
+            "total_time_ms": 139.3728256225586
+          }
+        },
+        {
+          "input": "\ud83d\ude80\ud83d\udcbb\ud83d\udd12",
+          "expected_malicious": false,
+          "expected_decision": "rule_benign",
+          "predicted_malicious": false,
+          "decision_point": "ml_prediction",
+          "correct_prediction": true,
+          "correct_decision": false,
+          "pipeline_result": {
+            "is_malicious": false,
+            "confidence": 0.08567874133586884,
+            "attack_type": null,
+            "attack_confidence": null,
+            "rule_result": 2,
+            "pipeline_steps": [
+              "input_validation",
+              "rule_filter",
+              "ml_preprocessing",
+              "ml_binary"
+            ],
+            "decision_point": "ml_prediction",
+            "rule_time_ms": 1.131296157836914,
+            "ml_time_ms": 80.93070983886719,
+            "total_time_ms": 82.0620059967041
+          }
+        }
+      ],
+      "accuracy": 66.66666666666666,
+      "correct": 4,
+      "total": 6
+    },
+    "performance_cases": {
+      "results": [
+        {
+          "input": "short",
+          "expected_malicious": false,
+          "expected_decision": "rule_benign",
+          "predicted_malicious": false,
+          "decision_point": "rule_benign",
+          "correct_prediction": true,
+          "correct_decision": true,
+          "pipeline_result": {
+            "is_malicious": false,
+            "confidence": 1.0,
+            "attack_type": null,
+            "attack_confidence": null,
+            "rule_result": 0,
+            "pipeline_steps": [
+              "input_validation",
+              "rule_filter"
+            ],
+            "decision_point": "rule_benign",
+            "rule_time_ms": 0.0,
+            "ml_time_ms": 0,
+            "total_time_ms": 0.0
+          }
+        },
+        {
+          "input": "medium length text medium length text medium length text medium length text medium length text medium length text medium length text medium length text medium length text medium length text ",
+          "expected_malicious": false,
+          "expected_decision": "rule_benign",
+          "predicted_malicious": false,
+          "decision_point": "rule_benign",
+          "correct_prediction": true,
+          "correct_decision": true,
+          "pipeline_result": {
+            "is_malicious": false,
+            "confidence": 1.0,
+            "attack_type": null,
+            "attack_confidence": null,
+            "rule_result": 0,
+            "pipeline_steps": [
+              "input_validation",
+              "rule_filter"
+            ],
+            "decision_point": "rule_benign",
+            "rule_time_ms": 0.0,
+            "ml_time_ms": 0,
+            "total_time_ms": 0.0
+          }
+        },
+        {
+          "input": "long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text long text ",
+          "expected_malicious": null,
+          "expected_decision": "ml_prediction",
+          "predicted_malicious": false,
+          "decision_point": "rule_benign",
+          "correct_prediction": true,
+          "correct_decision": false,
+          "pipeline_result": {
+            "is_malicious": false,
+            "confidence": 1.0,
+            "attack_type": null,
+            "attack_confidence": null,
+            "rule_result": 0,
+            "pipeline_steps": [
+              "input_validation",
+              "rule_filter"
+            ],
+            "decision_point": "rule_benign",
+            "rule_time_ms": 1.6350746154785156,
+            "ml_time_ms": 0,
+            "total_time_ms": 1.6350746154785156
+          }
+        },
+        {
+          "input": "very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text very long text ",
+          "expected_malicious": null,
+          "expected_decision": "ml_prediction",
+          "predicted_malicious": false,
+          "decision_point": "rule_benign",
+          "correct_prediction": true,
+          "correct_decision": false,
+          "pipeline_result": {
+            "is_malicious": false,
+            "confidence": 1.0,
+            "attack_type": null,
+            "attack_confidence": null,
+            "rule_result": 0,
+            "pipeline_steps": [
+              "input_validation",
+              "rule_filter"
+            ],
+            "decision_point": "rule_benign",
+            "rule_time_ms": 5.956172943115234,
+            "ml_time_ms": 0,
+            "total_time_ms": 5.956172943115234
+          }
+        }
+      ],
+      "accuracy": 0,
+      "correct": 2,
+      "total": 4
+    }
+  },
+  "overall_stats": {
+    "total_tests": 38,
+    "rule_benign_decisions": 20,
+    "rule_malicious_decisions": 8,
+    "ml_decisions": 8,
+    "correct_predictions": 23,
+    "total_rule_time": 9.720325469970703,
+    "total_ml_time": 2243.30735206604,
+    "pipeline_efficiency": {
+      "rule_decisions_pct": 73.68421052631578,
+      "ml_decisions_pct": 21.052631578947366,
+      "avg_rule_time_ms": 0.25579803868343953,
+      "avg_ml_time_ms": 280.413419008255,
+      "overall_accuracy_pct": 60.526315789473685
+    }
+  },
+  "summary": {
+    "total_tests": 38,
+    "correct_predictions": 23,
+    "overall_accuracy": 60.526315789473685,
+    "pipeline_efficiency": {
+      "rule_decisions_pct": 73.68421052631578,
+      "ml_decisions_pct": 21.052631578947366,
+      "avg_rule_time_ms": 0.25579803868343953,
+      "avg_ml_time_ms": 280.413419008255,
+      "overall_accuracy_pct": 60.526315789473685
+    }
+  }
+}

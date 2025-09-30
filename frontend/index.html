@@ -1,160 +1,395 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Securezzy Dashboard</title>
-    <link rel="stylesheet" href="styles.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SecureZZY - Security Monitoring Dashboard</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  </head>
-  <body>
-    <div class="app-container">
-      <header>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
         <div class="header-content">
-          <div class="brand">
-            <img src="Assets/SecurEZZY.png" alt="Securezzy Logo" class="logo">
-            <div class="brand-text">
-              <h1>Securezzy</h1>
-              <p>Real-time security monitoring dashboard</p>
+            <div class="logo">
+                <i class="fas fa-shield-alt"></i>
+                <h1>SecureZZY</h1>
             </div>
-          </div>
-          <div class="status-indicator">
-            <div class="connection-status" id="connection-status">
-              <span class="indicator"></span>
-              <span class="text">Disconnected</span>
+            <div class="header-stats">
+                <div class="stat-item">
+                    <span class="stat-label">Status</span>
+                    <span class="stat-value" id="systemStatus">
+                        <i class="fas fa-circle status-online"></i> Online
+                    </span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Events</span>
+                    <span class="stat-value" id="totalEvents">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Threats</span>
+                    <span class="stat-value" id="totalThreats">0</span>
+                </div>
             </div>
-          </div>
         </div>
-      </header>
-      
-      <main>
-        <section class="control-panel">
-          <div class="controls">
-            <button id="refresh" class="btn-primary">
-              <span class="icon">🔄</span>
-              Refresh Events
+    </header>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-content">
+            <button class="nav-item active" data-tab="dashboard">
+                <i class="fas fa-tachometer-alt"></i> Dashboard
             </button>
-            <button id="seed" class="btn-secondary">
-              <span class="icon">⚡</span>
-              Send Test Event
+            <button class="nav-item" data-tab="events">
+                <i class="fas fa-list"></i> Events
             </button>
-            <button id="clear-events" class="btn-danger">
-              <span class="icon">🗑️</span>
-              Clear Events
+            <button class="nav-item" data-tab="alerts">
+                <i class="fas fa-exclamation-triangle"></i> Alerts
             </button>
-          </div>
-          
-          <div class="filters">
-            <input type="text" id="search-filter" placeholder="Search events..." />
-            <select id="severity-filter">
-              <option value="">All Severities</option>
-              <option value="low">Low</option>
-              <option value="medium">Medium</option>
-              <option value="high">High</option>
-              <option value="critical">Critical</option>
-            </select>
-            <select id="type-filter">
-              <option value="">All Types</option>
-              <option value="injection">SQL Injection</option>
-              <option value="ddos">DDoS Attack</option>
-              <option value="normal">Normal Traffic</option>
-            </select>
-          </div>
-        </section>
-
-        <section class="metrics-dashboard">
-          <div class="stat-card">
-            <div class="stat-icon">📊</div>
-            <div class="stat-content">
-              <div class="label">Total Events</div>
-              <div class="value" id="live-count">0</div>
-              <div class="change positive" id="count-change">+0</div>
-            </div>
-          </div>
-          
-          <div class="stat-card alert-card">
-            <div class="stat-icon">🚨</div>
-            <div class="stat-content">
-              <div class="label">Injection Attempts</div>
-              <div class="value" id="live-injection">0</div>
-              <div class="change negative" id="injection-change">+0</div>
-            </div>
-          </div>
-          
-          <div class="stat-card alert-card">
-            <div class="stat-icon">⚡</div>
-            <div class="stat-content">
-              <div class="label">DDoS Attempts</div>
-              <div class="value" id="live-ddos">0</div>
-              <div class="change negative" id="ddos-change">+0</div>
-            </div>
-          </div>
-          
-          <div class="stat-card">
-            <div class="stat-icon">🔐</div>
-            <div class="stat-content">
-              <div class="label">Threat Level</div>
-              <div class="value threat-level" id="threat-level">LOW</div>
-              <div class="change" id="threat-change">Stable</div>
-            </div>
-          </div>
-        </section>
-
-        <section class="live-events-section">
-          <div class="section-header">
-            <h3>🔴 Live Event Stream</h3>
-            <button id="pause-stream" class="btn-toggle">Pause</button>
-          </div>
-          <div class="live-events-container">
-            <ul id="live-list"></ul>
-          </div>
-        </section>
-
-        <section class="events-table-section">
-          <div class="section-header">
-            <h3>📋 Event History</h3>
-            <div class="pagination-controls">
-              <button id="prev-page" disabled>Previous</button>
-              <span id="page-info">Page 1 of 1</span>
-              <button id="next-page" disabled>Next</button>
-            </div>
-          </div>
-          
-          <div class="table-wrapper">
-            <table id="events">
-              <thead>
-                <tr>
-                  <th>Timestamp</th>
-                  <th>Source IP</th>
-                  <th>Method</th>
-                  <th>Path</th>
-                  <th>Body</th>
-                  <th>Threat Level</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody></tbody>
-            </table>
-          </div>
-        </section>
-
-        <div id="alerts" class="alert-container"></div>
-      </main>
-    </div>
-
-    <!-- Modal for event details -->
-    <div id="event-modal" class="modal">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h3>Event Details</h3>
-          <button class="modal-close">&times;</button>
+            <button class="nav-item" data-tab="whitelist">
+                <i class="fas fa-check-circle"></i> Whitelist
+            </button>
+            <button class="nav-item" data-tab="analytics">
+                <i class="fas fa-chart-bar"></i> Analytics
+            </button>
+            <button class="nav-item" data-tab="test">
+                <i class="fas fa-vial"></i> Test
+            </button>
         </div>
-        <div class="modal-body" id="modal-body"></div>
-      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main">
+        <!-- Dashboard Tab -->
+        <div id="dashboard" class="tab-content active">
+            <div class="dashboard-grid">
+                <!-- Real-time Metrics -->
+                <div class="card metrics-card">
+                    <div class="card-header">
+                        <h3>Real-time Metrics</h3>
+                        <i class="fas fa-sync-alt refresh-btn" onclick="refreshMetrics()"></i>
+                    </div>
+                    <div class="metrics-grid">
+                        <div class="metric">
+                            <div class="metric-icon ddos">
+                                <i class="fas fa-bomb"></i>
+                            </div>
+                            <div class="metric-content">
+                                <div class="metric-value" id="ddosCount">0</div>
+                                <div class="metric-label">DDoS Alerts</div>
+                            </div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-icon injection">
+                                <i class="fas fa-bug"></i>
+                            </div>
+                            <div class="metric-content">
+                                <div class="metric-value" id="injectionCount">0</div>
+                                <div class="metric-label">Injection Alerts</div>
+                            </div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-icon whitelist">
+                                <i class="fas fa-shield-check"></i>
+                            </div>
+                            <div class="metric-content">
+                                <div class="metric-value" id="whitelistCount">0</div>
+                                <div class="metric-label">Whitelisted IPs</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Live Events Feed -->
+                <div class="card events-feed">
+                    <div class="card-header">
+                        <h3>Live Events</h3>
+                        <div class="header-controls">
+                            <button class="btn btn-sm" onclick="clearEventsFeed()">
+                                <i class="fas fa-broom"></i> Clear
+                            </button>
+                            <button class="btn btn-sm" id="pauseBtn" onclick="toggleEventsPause()">
+                                <i class="fas fa-pause"></i> Pause
+                            </button>
+                        </div>
+                    </div>
+                    <div class="events-container" id="liveEvents">
+                        <div class="no-events">
+                            <i class="fas fa-satellite-dish"></i>
+                            <p>Waiting for events...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- System Status -->
+                <div class="card status-card">
+                    <div class="card-header">
+                        <h3>System Status</h3>
+                    </div>
+                    <div class="status-list">
+                        <div class="status-item">
+                            <span class="status-label">API Server</span>
+                            <span class="status-indicator online" id="apiStatus">
+                                <i class="fas fa-circle"></i> Online
+                            </span>
+                        </div>
+                        <div class="status-item">
+                            <span class="status-label">Event Stream</span>
+                            <span class="status-indicator" id="streamStatus">
+                                <i class="fas fa-circle"></i> Connecting...
+                            </span>
+                        </div>
+                        <div class="status-item">
+                            <span class="status-label">DDoS Detection</span>
+                            <span class="status-indicator online" id="ddosStatus">
+                                <i class="fas fa-circle"></i> Active
+                            </span>
+                        </div>
+                        <div class="status-item">
+                            <span class="status-label">Injection Detection</span>
+                            <span class="status-indicator online" id="injectionStatus">
+                                <i class="fas fa-circle"></i> Active
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Events Tab -->
+        <div id="events" class="tab-content">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Event History</h3>
+                    <button class="btn" onclick="loadEvents()">
+                        <i class="fas fa-sync"></i> Refresh
+                    </button>
+                </div>
+                <div class="table-container">
+                    <table class="data-table" id="eventsTable">
+                        <thead>
+                            <tr>
+                                <th>Timestamp</th>
+                                <th>Source IP</th>
+                                <th>Method</th>
+                                <th>Path</th>
+                                <th>Country</th>
+                                <th>Whitelisted</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="eventsTableBody">
+                            <tr>
+                                <td colspan="7" class="loading">
+                                    <i class="fas fa-spinner fa-spin"></i> Loading events...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Alerts Tab -->
+        <div id="alerts" class="tab-content">
+            <div class="alerts-grid">
+                <!-- DDoS Alerts -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3>DDoS Alerts</h3>
+                        <span class="alert-count" id="ddosAlertCount">0</span>
+                    </div>
+                    <div class="alert-list" id="ddosAlerts">
+                        <div class="no-alerts">No DDoS alerts</div>
+                    </div>
+                </div>
+
+                <!-- Injection Alerts -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Injection Alerts</h3>
+                        <span class="alert-count" id="injectionAlertCount">0</span>
+                    </div>
+                    <div class="alert-list" id="injectionAlerts">
+                        <div class="no-alerts">No injection alerts</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Whitelist Tab -->
+        <div id="whitelist" class="tab-content">
+            <div class="whitelist-grid">
+                <!-- Add to Whitelist -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Add to Whitelist</h3>
+                    </div>
+                    <div class="form-container">
+                        <div class="form-tabs">
+                            <button class="form-tab active" data-form="ip">IP Address</button>
+                            <button class="form-tab" data-form="pattern">Pattern</button>
+                        </div>
+
+                        <div id="ipForm" class="form-content active">
+                            <div class="form-group">
+                                <label>IP Address</label>
+                                <input type="text" id="whitelistIP" placeholder="192.168.1.100">
+                            </div>
+                            <div class="form-group">
+                                <label>Reason</label>
+                                <input type="text" id="whitelistIPReason" placeholder="Trusted office IP">
+                            </div>
+                            <div class="form-group">
+                                <label>Confidence</label>
+                                <input type="number" id="whitelistIPConfidence" min="0" max="1" step="0.1" value="1.0">
+                            </div>
+                            <button class="btn btn-primary" onclick="addIPWhitelist()">
+                                <i class="fas fa-plus"></i> Add IP
+                            </button>
+                        </div>
+
+                        <div id="patternForm" class="form-content">
+                            <div class="form-group">
+                                <label>Pattern (Regex)</label>
+                                <input type="text" id="whitelistPattern" placeholder="^/api/health$">
+                            </div>
+                            <div class="form-group">
+                                <label>Reason</label>
+                                <input type="text" id="whitelistPatternReason" placeholder="Health check endpoint">
+                            </div>
+                            <div class="form-group">
+                                <label>Confidence</label>
+                                <input type="number" id="whitelistPatternConfidence" min="0" max="1" step="0.1" value="1.0">
+                            </div>
+                            <button class="btn btn-primary" onclick="addPatternWhitelist()">
+                                <i class="fas fa-plus"></i> Add Pattern
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Current Whitelist -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Current Whitelist</h3>
+                        <button class="btn" onclick="loadWhitelist()">
+                            <i class="fas fa-sync"></i> Refresh
+                        </button>
+                    </div>
+                    <div class="whitelist-container" id="whitelistContainer">
+                        <div class="loading">
+                            <i class="fas fa-spinner fa-spin"></i> Loading whitelist...
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Analytics Tab -->
+        <div id="analytics" class="tab-content">
+            <div class="analytics-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Injection Analytics</h3>
+                    </div>
+                    <div class="analytics-content" id="injectionAnalytics">
+                        <div class="loading">
+                            <i class="fas fa-spinner fa-spin"></i> Loading analytics...
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>DDoS Analytics</h3>
+                    </div>
+                    <div class="analytics-content" id="ddosAnalytics">
+                        <div class="loading">
+                            <i class="fas fa-spinner fa-spin"></i> Loading analytics...
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Test Tab -->
+        <div id="test" class="tab-content">
+            <div class="test-grid">
+                <!-- Request Analyzer -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Request Analyzer</h3>
+                    </div>
+                    <div class="form-container">
+                        <div class="form-group">
+                            <label>Source IP</label>
+                            <input type="text" id="testIP" placeholder="192.168.1.100">
+                        </div>
+                        <div class="form-group">
+                            <label>Path</label>
+                            <input type="text" id="testPath" placeholder="/api/users?id=1">
+                        </div>
+                        <div class="form-group">
+                            <label>Method</label>
+                            <select id="testMethod">
+                                <option value="GET">GET</option>
+                                <option value="POST">POST</option>
+                                <option value="PUT">PUT</option>
+                                <option value="DELETE">DELETE</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Body</label>
+                            <textarea id="testBody" placeholder=\'{"username": "admin", "password": "test"}\'></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>User Agent</label>
+                            <input type="text" id="testUserAgent" placeholder="Mozilla/5.0...">
+                        </div>
+                        <div class="form-group">
+                            <label>Country</label>
+                            <input type="text" id="testCountry" placeholder="US">
+                        </div>
+                        <button class="btn btn-primary" onclick="analyzeRequest()">
+                            <i class="fas fa-search"></i> Analyze Request
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Analysis Results -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Analysis Results</h3>
+                    </div>
+                    <div class="results-container" id="analysisResults">
+                        <div class="no-results">
+                            <i class="fas fa-flask"></i>
+                            <p>Run an analysis to see results</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Event Details Modal -->
+    <div class="modal" id="eventModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Event Details</h3>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="eventModalBody">
+                <!-- Event details will be populated here -->
+            </div>
+        </div>
     </div>
 
     <script src="app.js"></script>
-  </body>
+</body>
 </html>

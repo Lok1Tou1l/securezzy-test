@@ -6,3 +6,5 @@ tests/__pycache__
 frontend/__pycache__
 .env
 ENV_TEMPLATE
+__pycache__
+new/__pycache__

