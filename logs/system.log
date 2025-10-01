@@ -1,0 +1,5 @@
+{"id": "1759322997.8844512_1244", "timestamp": 1759322997.8844512, "datetime": "2025-10-01T14:49:57.884451", "level": "INFO", "log_type": "system", "message": "Test info message", "source": "test", "details": {}}
+{"id": "1759322997.8900824_6751", "timestamp": 1759322997.8900824, "datetime": "2025-10-01T14:49:57.890082", "level": "WARNING", "log_type": "security", "message": "Test warning message", "source": "test", "details": {}}
+{"id": "1759322997.8926034_9986", "timestamp": 1759322997.8926034, "datetime": "2025-10-01T14:49:57.892603", "level": "ERROR", "log_type": "api", "message": "Test error message", "source": "test", "details": {}}
+{"id": "1759322997.8936162_7702", "timestamp": 1759322997.8936162, "datetime": "2025-10-01T14:49:57.893616", "level": "CRITICAL", "log_type": "security", "message": "Test critical message", "source": "test", "details": {}}
+{"id": "1759322997.8946178_2512", "timestamp": 1759322997.8946178, "datetime": "2025-10-01T14:49:57.894617", "level": "DEBUG", "log_type": "system", "message": "Test debug message", "source": "test", "details": {}}

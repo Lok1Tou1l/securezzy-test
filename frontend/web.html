@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SecurEZZY - Security Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8fafc;
+            color: #1e293b;
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        .header {
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            height: 73px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .menu-toggle {
+            width: 32px;
+            height: 32px;
+            background: #f3f4f6;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            transition: all 0.2s;
+        }
+
+        .menu-toggle:hover {
+            background: #e5e7eb;
+        }
+
+.logo {
+    display: flex;
+    align-items: center;
+    height: 40px;
+}
+
+.logo-image {
+    height: 100%;
+    width: auto;
+    object-fit: contain;
+}
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #0f172a;
+        }
+
+        .logo-text .ezzy {
+            color: #ef4444;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .threat-badge {
+            background: #fee2e2;
+            color: #dc2626;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            border: 1px solid #fecaca;
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #16a34a;
+            font-size: 14px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #16a34a;
+            border-radius: 50%;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 500;
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            background: #64748b;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .main-layout {
+            display: flex;
+            margin-top: 73px;
+            height: calc(100vh - 73px);
+        }
+
+        .sidebar {
+            width: 250px;
+            background: white;
+            border-right: 1px solid #e5e7eb;
+            padding: 20px 0;
+            position: fixed;
+            left: 0;
+            top: 73px;
+            bottom: 0;
+            overflow-y: auto;
+            transition: transform 0.3s ease;
+            z-index: 100;
+        }
+
+        .sidebar.hidden {
+            transform: translateX(-100%);
+        }
+
+        .sidebar-item {
+            padding: 12px 24px;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #6b7280;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sidebar-item.active {
+            background: #eff6ff;
+            color: #2563eb;
+            border-right: 3px solid #2563eb;
+        }
+
+        .sidebar-item:hover {
+            background: #f3f4f6;
+        }
+
+        .content-wrapper {
+            flex: 1;
+            margin-left: 250px;
+            transition: margin-left 0.3s ease;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .content-wrapper.expanded {
+            margin-left: 0;
+        }
+
+        .content-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.visible {
+                transform: translateX(0);
+            }
+
+            .content-wrapper {
+                margin-left: 0;
+            }
+
+            .header {
+                padding: 1rem;
+                flex-wrap: wrap;
+            }
+
+            .header-right {
+                flex-direction: column;
+                align-items: flex-end;
+                gap: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-left">
+            <button class="menu-toggle" onclick="toggleSidebar()">
+                <i class="fas fa-bars"></i>
+            </button>
+<div class="logo">
+    <img src="./LOGO-SecurEZZY.png"  class="logo-image">
+</div>
+        </div>
+        <div class="header-right">
+            <div class="threat-badge">
+                <i class="fas fa-exclamation-triangle"></i> 10 Active Threats
+            </div>
+            <div class="status-indicator">
+                <div class="status-dot"></div>
+                All Systems Operational
+            </div>
+            <div class="user-info">
+                <div class="user-avatar"><i class="fas fa-user"></i></div>
+                <span>Admin</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="main-layout">
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-item active" onclick="navigateTo('dashboard')">
+                <i class="fas fa-home"></i> Dashboard
+            </div>
+            <div class="sidebar-item" onclick="navigateTo('admin')">
+                <i class="fas fa-user-shield"></i> Admin Panel
+            </div>
+            <div class="sidebar-item" onclick="navigateTo('test')">
+                <i class="fas fa-vial"></i> Test
+            </div>
+        </div>
+
+        <div class="content-wrapper" id="contentWrapper">
+            <iframe id="contentFrame" class="content-frame" src="dashboard-content.html"></iframe>
+        </div>
+    </div>
+
+    <script>
+        let sidebarVisible = true;
+
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const contentWrapper = document.getElementById('contentWrapper');
+            
+            sidebarVisible = !sidebarVisible;
+            
+            if (window.innerWidth <= 768) {
+                sidebar.classList.toggle('visible');
+            } else {
+                sidebar.classList.toggle('hidden');
+                contentWrapper.classList.toggle('expanded');
+            }
+        }
+
+        function navigateTo(page) {
+            const iframe = document.getElementById('contentFrame');
+            const sidebarItems = document.querySelectorAll('.sidebar-item');
+            
+            sidebarItems.forEach(item => item.classList.remove('active'));
+            
+            if (page === 'dashboard') {
+                iframe.src = 'dashboard-content.html';
+                sidebarItems[0].classList.add('active');
+            } else if (page === 'admin') {
+                iframe.src = 'admin-content.html';
+                sidebarItems[1].classList.add('active');
+            } else if (page === 'test') {
+                iframe.src = 'test-content.html';
+                sidebarItems[2].classList.add('active');
+            }
+            
+            if (window.innerWidth <= 768 && sidebarVisible) {
+                toggleSidebar();
+            }
+        }
+
+        window.addEventListener('resize', function() {
+            const sidebar = document.getElementById('sidebar');
+            const contentWrapper = document.getElementById('contentWrapper');
+            
+            if (window.innerWidth > 768) {
+                sidebar.classList.remove('visible');
+                if (!sidebarVisible) {
+                    sidebar.classList.add('hidden');
+                    contentWrapper.classList.add('expanded');
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sniffer Management</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8fafc;
+            color: #1e293b;
+            padding: 24px;
+        }
+
+        .sniffer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .sniffer-title {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #0f172a;
+        }
+
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .status-running {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .status-stopped {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .status-unknown {
+            background: #f3f4f6;
+            color: #6b7280;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: currentColor;
+        }
+
+        .sniffer-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        .sniffer-card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e2e8f0;
+        }
+
+        .card-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #0f172a;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #374151;
+            margin-bottom: 6px;
+        }
+
+        .form-input, .form-select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            transition: border-color 0.2s;
+        }
+
+        .form-input:focus, .form-select:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .form-textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            font-family: 'Courier New', monospace;
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .form-textarea:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #2563eb;
+        }
+
+        .btn-secondary {
+            background: #6b7280;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #4b5563;
+        }
+
+        .btn-success {
+            background: #10b981;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #059669;
+        }
+
+        .btn-danger {
+            background: #ef4444;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .info-item {
+            background: white;
+            padding: 16px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .info-label {
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 4px;
+        }
+
+        .info-value {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #0f172a;
+            font-family: 'Courier New', monospace;
+        }
+
+        .alert {
+            padding: 12px 16px;
+            border-radius: 6px;
+            margin-bottom: 16px;
+            font-size: 0.875rem;
+        }
+
+        .alert-info {
+            background: #dbeafe;
+            color: #1e40af;
+            border: 1px solid #93c5fd;
+        }
+
+        .alert-warning {
+            background: #fef3c7;
+            color: #92400e;
+            border: 1px solid #fcd34d;
+        }
+
+        .alert-error {
+            background: #fee2e2;
+            color: #dc2626;
+            border: 1px solid #fca5a5;
+        }
+
+        .alert-success {
+            background: #dcfce7;
+            color: #166534;
+            border: 1px solid #86efac;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #3b82f6;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .sniffer-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="sniffer-header">
+        <h1 class="sniffer-title">
+            <i class="fas fa-network-wired"></i>
+            Network Sniffer Management
+        </h1>
+        <div id="statusIndicator" class="status-indicator status-unknown">
+            <div class="status-dot"></div>
+            <span>Loading...</span>
+        </div>
+    </div>
+
+    <div id="alertContainer"></div>
+
+    <div class="info-grid">
+        <div class="info-item">
+            <div class="info-label">Status</div>
+            <div id="statusValue" class="info-value">Unknown</div>
+        </div>
+        <div class="info-item">
+            <div class="info-label">Interface</div>
+            <div id="interfaceValue" class="info-value">-</div>
+        </div>
+        <div class="info-item">
+            <div class="info-label">BPF Filter</div>
+            <div id="bpfValue" class="info-value">-</div>
+        </div>
+        <div class="info-item">
+            <div class="info-label">API Base</div>
+            <div id="apiValue" class="info-value">-</div>
+        </div>
+    </div>
+
+    <div class="sniffer-grid">
+        <div class="sniffer-card">
+            <h2 class="card-title">
+                <i class="fas fa-cog"></i>
+                Configuration
+            </h2>
+            
+            <form id="snifferConfigForm">
+                <div class="form-group">
+                    <label class="form-label">Enable Sniffer</label>
+                    <select id="enabledSelect" class="form-select">
+                        <option value="true">Enabled</option>
+                        <option value="false">Disabled</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Network Interface</label>
+                    <select id="interfaceSelect" class="form-select">
+                        <option value="">Auto-detect</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">BPF Filter</label>
+                    <textarea id="bpfFilter" class="form-textarea" placeholder="tcp port 80 or tcp port 443">tcp port 80 or tcp port 443</textarea>
+                    <small style="color: #6b7280; font-size: 0.75rem;">
+                        Berkeley Packet Filter expression for traffic filtering
+                    </small>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">API Base URL</label>
+                    <input type="url" id="apiBase" class="form-input" placeholder="http://127.0.0.1:5000">
+                </div>
+
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save"></i>
+                    Save Configuration
+                </button>
+            </form>
+        </div>
+
+        <div class="sniffer-card">
+            <h2 class="card-title">
+                <i class="fas fa-tools"></i>
+                Actions
+            </h2>
+            
+            <div style="display: flex; flex-direction: column; gap: 12px;">
+                <button id="refreshStatusBtn" class="btn btn-secondary">
+                    <i class="fas fa-sync-alt"></i>
+                    Refresh Status
+                </button>
+                
+                <button id="loadInterfacesBtn" class="btn btn-secondary">
+                    <i class="fas fa-list"></i>
+                    Load Interfaces
+                </button>
+                
+                <button id="testConnectionBtn" class="btn btn-secondary">
+                    <i class="fas fa-plug"></i>
+                    Test Connection
+                </button>
+                
+                <div style="border-top: 1px solid #e2e8f0; padding-top: 16px; margin-top: 8px;">
+                    <p style="font-size: 0.875rem; color: #6b7280; margin-bottom: 12px;">
+                        <i class="fas fa-info-circle"></i>
+                        Configuration changes require a server restart to take effect.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentConfig = {};
+
+        // Show alert
+        function showAlert(message, type = 'info') {
+            const alertContainer = document.getElementById('alertContainer');
+            const alert = document.createElement('div');
+            alert.className = `alert alert-${type}`;
+            alert.innerHTML = `
+                <i class="fas fa-${type === 'error' ? 'exclamation-triangle' : type === 'success' ? 'check-circle' : type === 'warning' ? 'exclamation-triangle' : 'info-circle'}"></i>
+                ${message}
+            `;
+            alertContainer.appendChild(alert);
+            
+            setTimeout(() => {
+                alert.remove();
+            }, 5000);
+        }
+
+        // Update status indicator
+        function updateStatusIndicator(status) {
+            const indicator = document.getElementById('statusIndicator');
+            const statusValue = document.getElementById('statusValue');
+            
+            if (status.available && status.enabled) {
+                indicator.className = 'status-indicator status-running';
+                indicator.innerHTML = '<div class="status-dot"></div><span>Running</span>';
+                statusValue.textContent = 'Running';
+            } else if (status.available && !status.enabled) {
+                indicator.className = 'status-indicator status-stopped';
+                indicator.innerHTML = '<div class="status-dot"></div><span>Stopped</span>';
+                statusValue.textContent = 'Stopped';
+            } else {
+                indicator.className = 'status-indicator status-unknown';
+                indicator.innerHTML = '<div class="status-dot"></div><span>Unavailable</span>';
+                statusValue.textContent = 'Unavailable';
+            }
+        }
+
+        // Load sniffer status
+        async function loadSnifferStatus() {
+            try {
+                const response = await fetch('/sniffer/status');
+                const data = await response.json();
+                
+                if (response.ok) {
+                    currentConfig = data;
+                    updateStatusIndicator(data);
+                    
+                    document.getElementById('interfaceValue').textContent = data.interface || 'Auto';
+                    document.getElementById('bpfValue').textContent = data.bpf_filter;
+                    document.getElementById('apiValue').textContent = data.api_base;
+                    
+                    // Update form
+                    document.getElementById('enabledSelect').value = data.enabled ? 'true' : 'false';
+                    document.getElementById('bpfFilter').value = data.bpf_filter;
+                    document.getElementById('apiBase').value = data.api_base;
+                } else {
+                    showAlert(`Failed to load status: ${data.error}`, 'error');
+                }
+            } catch (error) {
+                showAlert(`Error loading status: ${error.message}`, 'error');
+            }
+        }
+
+        // Load network interfaces
+        async function loadInterfaces() {
+            try {
+                const response = await fetch('/sniffer/interfaces');
+                const data = await response.json();
+                
+                if (response.ok) {
+                    const select = document.getElementById('interfaceSelect');
+                    select.innerHTML = '<option value="">Auto-detect</option>';
+                    
+                    data.interfaces.forEach(iface => {
+                        const option = document.createElement('option');
+                        option.value = iface.name;
+                        option.textContent = `${iface.name} (${iface.ip})`;
+                        if (iface.name === currentConfig.interface) {
+                            option.selected = true;
+                        }
+                        select.appendChild(option);
+                    });
+                    
+                    showAlert('Network interfaces loaded successfully', 'success');
+                } else {
+                    showAlert(`Failed to load interfaces: ${data.error}`, 'error');
+                }
+            } catch (error) {
+                showAlert(`Error loading interfaces: ${error.message}`, 'error');
+            }
+        }
+
+        // Save configuration
+        async function saveConfiguration() {
+            const config = {
+                enabled: document.getElementById('enabledSelect').value === 'true',
+                interface: document.getElementById('interfaceSelect').value,
+                bpf_filter: document.getElementById('bpfFilter').value,
+                api_base: document.getElementById('apiBase').value
+            };
+
+            try {
+                const response = await fetch('/sniffer/config', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(config)
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    showAlert(data.message, 'success');
+                    await loadSnifferStatus();
+                } else {
+                    showAlert(`Failed to save configuration: ${data.error}`, 'error');
+                }
+            } catch (error) {
+                showAlert(`Error saving configuration: ${error.message}`, 'error');
+            }
+        }
+
+        // Test connection
+        async function testConnection() {
+            try {
+                const response = await fetch('/health');
+                const data = await response.json();
+                
+                if (response.ok) {
+                    showAlert('Connection test successful', 'success');
+                } else {
+                    showAlert('Connection test failed', 'error');
+                }
+            } catch (error) {
+                showAlert(`Connection test failed: ${error.message}`, 'error');
+            }
+        }
+
+        // Event listeners
+        document.getElementById('snifferConfigForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            saveConfiguration();
+        });
+
+        document.getElementById('refreshStatusBtn').addEventListener('click', loadSnifferStatus);
+        document.getElementById('loadInterfacesBtn').addEventListener('click', loadInterfaces);
+        document.getElementById('testConnectionBtn').addEventListener('click', testConnection);
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            loadSnifferStatus();
+        });
+    </script>
+</body>
+</html>

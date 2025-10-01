@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Frontend API Test</title>
+</head>
+<body>
+    <h1>Frontend API Test</h1>
+    <div id="results"></div>
+    
+    <script>
+        async function testAPI() {
+            const results = document.getElementById('results');
+            
+            try {
+                // Test DDoS Status
+                const statusResponse = await fetch('http://localhost:5000/ddos/lstm/status');
+                const statusData = await statusResponse.json();
+                results.innerHTML += `<p>✅ DDoS Status: ${statusResponse.status} - ${JSON.stringify(statusData)}</p>`;
+                
+                // Test DDoS Alerts
+                const alertsResponse = await fetch('http://localhost:5000/ddos/lstm/alerts');
+                const alertsData = await alertsResponse.json();
+                results.innerHTML += `<p>✅ DDoS Alerts: ${alertsResponse.status} - ${JSON.stringify(alertsData)}</p>`;
+                
+                // Test Sniffer Status
+                const snifferResponse = await fetch('http://localhost:5000/sniffer/status');
+                const snifferData = await snifferResponse.json();
+                results.innerHTML += `<p>✅ Sniffer Status: ${snifferResponse.status} - ${JSON.stringify(snifferData)}</p>`;
+                
+            } catch (error) {
+                results.innerHTML += `<p>❌ Error: ${error.message}</p>`;
+            }
+        }
+        
+        // Run test when page loads
+        window.onload = testAPI;
+    </script>
+</body>
+</html>

@@ -7,8 +7,33 @@ import torch
 import torch.nn as nn
 from typing import Dict, List, Optional, Any
 import numpy as np
-from models import InjectionDetectionModel, MultiClassInjectionModel
-from rule_filter import RuleBasedInjectionFilter
+import sys
+import os
+
+# Add src directory to path for imports
+sys.path.append(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'src'))
+
+try:
+    from models import InjectionDetectionModel, MultiClassInjectionModel
+    from rule_filter import RuleBasedInjectionFilter
+    MODELS_AVAILABLE = True
+except ImportError as e:
+    print(f"Warning: Models not available: {e}")
+    MODELS_AVAILABLE = False
+    # Create mock classes
+    class InjectionDetectionModel:
+        def __init__(self): pass
+        def load_state_dict(self, *args): pass
+        def to(self, *args): return self
+        def eval(self): pass
+    class MultiClassInjectionModel:
+        def __init__(self): pass
+        def load_state_dict(self, *args): pass
+        def to(self, *args): return self
+        def eval(self): pass
+    class RuleBasedInjectionFilter:
+        def __init__(self): pass
+        def classify_text(self, text): return 0
 
 class InjectionDetector:
     """
@@ -24,8 +49,8 @@ class InjectionDetector:
     """
     
     def __init__(self,
-                 binary_model_path: str,
-                 multiclass_model_path: str,
+                 binary_model_path: str = None,
+                 multiclass_model_path: str = None,
                  device: str = None,
                  max_length: int = 2048):
         """
@@ -44,24 +69,36 @@ class InjectionDetector:
             self.device = device
             
         self.max_length = max_length
+        self.models_available = MODELS_AVAILABLE
         
         # Initialize rule-based filter
         self.rule_filter = RuleBasedInjectionFilter()
         
-        # Load binary model
-        print(f"Loading binary model from {binary_model_path}...")
-        self.binary_model = InjectionDetectionModel()
-        self.binary_model.load_state_dict(torch.load(binary_model_path, map_location=self.device))
-        self.binary_model.to(self.device)
-        self.binary_model.eval()
-        
-        # Load multi-class model
-        print(f"Loading multi-class model from {multiclass_model_path}...")
-        base_model = InjectionDetectionModel()
-        self.multiclass_model = MultiClassInjectionModel(base_model, num_classes=4)
-        self.multiclass_model.load_state_dict(torch.load(multiclass_model_path, map_location=self.device))
-        self.multiclass_model.to(self.device)
-        self.multiclass_model.eval()
+        if self.models_available and binary_model_path and multiclass_model_path:
+            try:
+                # Load binary model
+                print(f"Loading binary model from {binary_model_path}...")
+                self.binary_model = InjectionDetectionModel()
+                self.binary_model.load_state_dict(torch.load(binary_model_path, map_location=self.device))
+                self.binary_model.to(self.device)
+                self.binary_model.eval()
+                
+                # Load multi-class model
+                print(f"Loading multi-class model from {multiclass_model_path}...")
+                base_model = InjectionDetectionModel()
+                self.multiclass_model = MultiClassInjectionModel(base_model, num_classes=4)
+                self.multiclass_model.load_state_dict(torch.load(multiclass_model_path, map_location=self.device))
+                self.multiclass_model.to(self.device)
+                self.multiclass_model.eval()
+            except Exception as e:
+                print(f"Warning: Failed to load models: {e}")
+                self.models_available = False
+                self.binary_model = None
+                self.multiclass_model = None
+        else:
+            print("Warning: Models not available, using rule-based detection only")
+            self.binary_model = None
+            self.multiclass_model = None
         
         self.attack_types = ['sqli', 'commandi', 'xss', 'traversal']
         
@@ -137,6 +174,50 @@ class InjectionDetector:
                     'attack_type': 'rule_detected',
                     'attack_confidence': 1.0,
                     'rule_result': rule_result
+                }
+        
+        # If models are not available, use rule-based detection only
+        if not self.models_available or not self.binary_model:
+            # Use the simple rule-based detection from the functions below
+            from utils.regex_patterns import INJECTION_PATTERNS, WHITELIST_PATTERNS
+            
+            # Check whitelist first
+            for pattern in WHITELIST_PATTERNS:
+                if pattern.match(text.strip()):
+                    return {
+                        'is_malicious': False,
+                        'confidence': 1.0,
+                        'attack_type': None,
+                        'attack_confidence': None,
+                        'rule_result': 0
+                    }
+            
+            # Check injection patterns
+            max_confidence = 0.0
+            attack_type = None
+            
+            for category, patterns in INJECTION_PATTERNS.items():
+                for pattern, confidence in patterns:
+                    if pattern.search(text):
+                        if confidence > max_confidence:
+                            max_confidence = confidence
+                            attack_type = category.split('_')[0]
+            
+            if max_confidence >= threshold:
+                return {
+                    'is_malicious': True,
+                    'confidence': max_confidence,
+                    'attack_type': attack_type,
+                    'attack_confidence': max_confidence,
+                    'rule_result': 1
+                }
+            else:
+                return {
+                    'is_malicious': False,
+                    'confidence': 1.0 - max_confidence,
+                    'attack_type': None,
+                    'attack_confidence': None,
+                    'rule_result': 0
                 }
         
         # Preprocess for model

@@ -1,0 +1,1558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Content</title>
+    
+<style>
+
+ * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8fafc;
+            color: #1e293b;
+            line-height: 1.6;
+        }
+
+        .header {
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .menu-toggle {
+            width: 32px;
+            height: 32px;
+            background: #f3f4f6;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            transition: all 0.2s;
+        }
+
+        .menu-toggle:hover {
+            background: #e5e7eb;
+        }
+
+.logo {
+    display: flex;
+    align-items: center;
+    height: 40px;
+}
+
+.logo-image {
+    height: 100%;
+    width: auto;
+    object-fit: contain;
+}
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #0f172a;
+        }
+
+        .logo-text .ezzy {
+            color: #ef4444;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 500;
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            background: #64748b;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .main-layout {
+            display: flex;
+            margin-top: 73px;
+            min-height: calc(100vh - 73px);
+        }
+
+        .sidebar {
+            width: 250px;
+            background: white;
+            border-right: 1px solid #e5e7eb;
+            padding: 20px 0;
+            position: fixed;
+            left: 0;
+            top: 73px;
+            bottom: 0;
+            overflow-y: auto;
+            transition: transform 0.3s ease;
+            z-index: 100;
+        }
+
+        .sidebar.hidden {
+            transform: translateX(-100%);
+        }
+
+        .sidebar-item {
+            padding: 12px 24px;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #6b7280;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sidebar-item.active {
+            background: #eff6ff;
+            color: #2563eb;
+            border-right: 3px solid #2563eb;
+        }
+
+        .sidebar-item:hover {
+            background: #f3f4f6;
+        }
+
+        .main-content-wrapper {
+            flex: 1;
+            margin-left: 250px;
+            transition: margin-left 0.3s ease;
+        }
+
+        .main-content-wrapper.expanded {
+            margin-left: 0;
+        }
+
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .admin-title {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #0f172a;
+        }
+
+        .save-btn {
+            background: #0ea5e9;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s;
+        }
+
+        .save-btn:hover {
+            background: #0284c7;
+            transform: translateY(-1px);
+        }
+
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #e2e8f0;
+            margin-bottom: 2rem;
+            gap: 1rem;
+        }
+
+        .tab {
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 500;
+            color: #64748b;
+            transition: all 0.2s;
+        }
+
+        .tab.active {
+            color: #0ea5e9;
+            border-bottom-color: #0ea5e9;
+        }
+
+        .tab:hover:not(.active) {
+            color: #475569;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+            color: #0f172a;
+        }
+
+        .card {
+            background: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid #e2e8f0;
+        }
+
+        .users-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .add-user-btn {
+            background: #475569;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.25rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .add-user-btn:hover {
+            background: #334155;
+        }
+
+        .users-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1rem;
+        }
+
+        .users-table th,
+        .users-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .users-table th {
+            font-weight: 600;
+            color: #475569;
+            background: #f8fafc;
+        }
+
+        .role-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .role-admin {
+            background: #fce7f3;
+            color: #be185d;
+        }
+
+        .role-analyst {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .role-viewer {
+            background: #f3f4f6;
+            color: #374151;
+        }
+
+        .status-active {
+            color: #16a34a;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .status-inactive {
+            color: #dc2626;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: currentColor;
+        }
+
+        .action-btn {
+            padding: 0.5rem 0.75rem;
+            border: none;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            font-size: 0.875rem;
+            margin-right: 0.5rem;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .edit-btn {
+            background: #e0f2fe;
+            color: #0277bd;
+        }
+
+        .edit-btn:hover {
+            background: #b3e5fc;
+        }
+
+        .delete-btn {
+            background: #ffebee;
+            color: #d32f2f;
+        }
+
+        .delete-btn:hover {
+            background: #ffcdd2;
+        }
+
+        .system-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .metric-card {
+            background: white;
+            border-radius: 0.75rem;
+            border: 1px solid #e2e8f0;
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .metric-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .metric-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+
+        .threat-icon {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        .performance-icon {
+            background: #dbeafe;
+            color: #2563eb;
+        }
+
+        .notification-icon {
+            background: #e5e7eb;
+            color: #6b7280;
+        }
+
+        .restriction-icon {
+            background: #fecaca;
+            color: #dc2626;
+        }
+
+        .logs-icon {
+            background: #d1fae5;
+            color: #059669;
+        }
+
+        .metric-title {
+            font-weight: 600;
+            color: #0f172a;
+        }
+
+        .threshold-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+
+        .threshold-label {
+            font-size: 0.9rem;
+            color: #64748b;
+        }
+
+        .threshold-value {
+            font-weight: 600;
+            color: #0ea5e9;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #374151;
+        }
+
+        .form-input,
+        .form-select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            font-size: 0.9rem;
+            transition: border-color 0.2s;
+        }
+
+        .form-input:focus,
+        .form-select:focus {
+            outline: none;
+            border-color: #0ea5e9;
+            box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logs-container {
+            background: #1e293b;
+            color: #e2e8f0;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.8rem;
+            max-height: 300px;
+            overflow-y: auto;
+            line-height: 1.4;
+        }
+
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 16px;
+        }
+
+        .status-running {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .status-stopped {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .status-unknown {
+            background: #f3f4f6;
+            color: #6b7280;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: currentColor;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 12px;
+        }
+
+        .info-item {
+            background: #f8fafc;
+            padding: 12px;
+            border-radius: 6px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .info-label {
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 4px;
+        }
+
+        .info-value {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #0f172a;
+            font-family: 'Courier New', monospace;
+        }
+
+        .form-textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            font-family: 'Courier New', monospace;
+            resize: vertical;
+            min-height: 60px;
+        }
+
+        .form-textarea:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .log-entry {
+            margin-bottom: 0.25rem;
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .log-timestamp {
+            color: #64748b;
+            white-space: nowrap;
+        }
+
+        .log-level {
+            font-weight: bold;
+            width: 60px;
+        }
+
+        .log-info { color: #0ea5e9; }
+        .log-warning { color: #f59e0b; }
+        .log-error { color: #ef4444; }
+        .log-success { color: #10b981; }
+
+        .role-permissions {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+
+        .permission-item {
+            margin-bottom: 0.5rem;
+        }
+
+        .permission-role {
+            font-weight: 600;
+            color: #0f172a;
+        }
+
+        .permission-desc {
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.visible {
+                transform: translateX(0);
+            }
+
+            .main-content-wrapper {
+                margin-left: 0;
+            }
+
+            .header {
+                padding: 1rem;
+                flex-wrap: wrap;
+            }
+
+            .main-container {
+                padding: 1rem;
+            }
+
+            .admin-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .tabs {
+                overflow-x: auto;
+            }
+
+            .users-table {
+                font-size: 0.8rem;
+            }
+
+            .users-table th,
+            .users-table td {
+                padding: 0.5rem;
+            }
+
+            .system-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<body>
+    
+
+         <main class="main-container">
+            <div class="admin-header">
+                <h1 class="admin-title">
+                    <i class="fas fa-cog"></i>
+                    Administration Panel
+                </h1>
+                <button class="save-btn" onclick="saveChanges()">
+                    <i class="fas fa-save"></i>
+                    Save Changes
+                </button>
+            </div>
+
+            <div class="tabs">
+                <div class="tab active" onclick="switchTab('user-management')">
+                    <i class="fas fa-users"></i>
+                    User Management
+                </div>
+                <div class="tab" onclick="switchTab('system-management')">
+                    <i class="fas fa-chart-line"></i>
+                    System Management
+                </div>
+                <div class="tab" onclick="switchTab('network-management')">
+                    <i class="fas fa-network-wired"></i>
+                    Network Management
+                </div>
+            </div>
+
+            <div id="user-management" class="tab-content active">
+                <div class="section-title">User Management</div>
+                
+                <div class="card">
+                    <div class="users-header">
+                        <h3>Active Users</h3>
+                        <button class="add-user-btn" onclick="addUser()">
+                            <i class="fas fa-user-plus"></i>
+                            Add User
+                        </button>
+                    </div>
+                    
+                    <table class="users-table" id="users-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                                <th>Status</th>
+                                <th>Last Login</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>John Doe</td>
+                                <td>john.doe@cyberguard.ai</td>
+                                <td><span class="role-badge role-admin">Admin</span></td>
+                                <td><span class="status-active"><span class="status-dot"></span>Active</span></td>
+                                <td>2 minutes ago</td>
+                                <td>
+                                    <button class="action-btn edit-btn" onclick="editUser(this)">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </button>
+                                    <button class="action-btn delete-btn" onclick="deleteUser(this)">
+                                        <i class="fas fa-trash"></i> Delete
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Sarah Smith</td>
+                                <td>sarah.smith@cyberguard.ai</td>
+                                <td><span class="role-badge role-analyst">Analyst</span></td>
+                                <td><span class="status-active"><span class="status-dot"></span>Active</span></td>
+                                <td>1 hour ago</td>
+                                <td>
+                                    <button class="action-btn edit-btn" onclick="editUser(this)">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </button>
+                                    <button class="action-btn delete-btn" onclick="deleteUser(this)">
+                                        <i class="fas fa-trash"></i> Delete
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Mike Wilson</td>
+                                <td>mike.wilson@cyberguard.ai</td>
+                                <td><span class="role-badge role-analyst">Analyst</span></td>
+                                <td><span class="status-inactive"><span class="status-dot"></span>Inactive</span></td>
+                                <td>2 days ago</td>
+                                <td>
+                                    <button class="action-btn edit-btn" onclick="editUser(this)">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </button>
+                                    <button class="action-btn delete-btn" onclick="deleteUser(this)">
+                                        <i class="fas fa-trash"></i> Delete
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Lisa Johnson</td>
+                                <td>lisa.johnson@cyberguard.ai</td>
+                                <td><span class="role-badge role-viewer">Viewer</span></td>
+                                <td><span class="status-active"><span class="status-dot"></span>Active</span></td>
+                                <td>30 minutes ago</td>
+                                <td>
+                                    <button class="action-btn edit-btn" onclick="editUser(this)">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </button>
+                                    <button class="action-btn delete-btn" onclick="deleteUser(this)">
+                                        <i class="fas fa-trash"></i> Delete
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="role-permissions">
+                        <h4><i class="fas fa-shield-alt"></i> Role Permissions</h4>
+                        <div class="permission-item">
+                            <div class="permission-role">Admin:</div>
+                            <div class="permission-desc">Full system access, user management, system configuration</div>
+                        </div>
+                        <div class="permission-item">
+                            <div class="permission-role">Analyst:</div>
+                            <div class="permission-desc">View dashboards, manage incidents, create reports</div>
+                        </div>
+                        <div class="permission-item">
+                            <div class="permission-role">Viewer:</div>
+                            <div class="permission-desc">Read-only access to dashboards and reports</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="system-management" class="tab-content">
+                <div class="section-title">System Management</div>
+                
+                <div class="system-grid">
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <div class="metric-icon threat-icon">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </div>
+                            <div class="metric-title">Threat Detection Thresholds</div>
+                        </div>
+                        <div class="threshold-item">
+                            <span class="threshold-label">DDoS Detection Sensitivity</span>
+                            <span class="threshold-value">85%</span>
+                        </div>
+                        <div class="threshold-item">
+                            <span class="threshold-label">SQL Injection Threshold</span>
+                            <span class="threshold-value">78%</span>
+                        </div>
+                        <div class="threshold-item">
+                            <span class="threshold-label">XSS Detection Threshold</span>
+                            <span class="threshold-value">72%</span>
+                        </div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <div class="metric-icon performance-icon">
+                                <i class="fas fa-tachometer-alt"></i>
+                            </div>
+                            <div class="metric-title">System Performance</div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Data Retention Period (days)</label>
+                            <input type="number" class="form-input" value="90">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Log Rotation Frequency</label>
+                            <select class="form-select">
+                                <option>Weekly</option>
+                                <option>Daily</option>
+                                <option>Monthly</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Auto-Response Actions</label>
+                            <div class="checkbox-group">
+                                <label class="checkbox-item">
+                                    <input type="checkbox" checked>
+                                    Automatically block critical threats
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" checked>
+                                    Send notifications for high-risk threats
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <div class="metric-icon notification-icon">
+                                <i class="fas fa-bell"></i>
+                            </div>
+                            <div class="metric-title">Notification Settings</div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Email Notifications</label>
+                            <input type="email" class="form-input" value="admin@cyberguard.ai">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Slack Webhook URL</label>
+                            <input type="url" class="form-input" value="https://hooks.slack.com/...">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Notification Frequency</label>
+                            <select class="form-select">
+                                <option>Immediate</option>
+                                <option>Hourly</option>
+                                <option>Daily</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <div class="metric-icon restriction-icon">
+                                <i class="fas fa-ban"></i>
+                            </div>
+                            <div class="metric-title">IP Restrictions</div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Allowed IP Ranges</label>
+                            <textarea class="form-input" style="min-height: 80px; resize: vertical;">192.168.1.0/24
+10.0.0.0/8
+172.16.0.0/12</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label class="checkbox-item">
+                                <input type="checkbox" checked>
+                                Block connections from unknown IPs
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Rate Limiting</label>
+                            <div style="display: flex; gap: 0.5rem; align-items: center;">
+                                <input type="number" class="form-input" value="100" style="width: 80px;">
+                                <span>requests per minute</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="metric-card" style="grid-column: 1 / -1;">
+                        <div class="metric-header">
+                            <div class="metric-icon logs-icon">
+                                <i class="fas fa-file-alt"></i>
+                            </div>
+                            <div class="metric-title">System Logs</div>
+                        </div>
+                        <div class="logs-container" id="logs-container">
+                            <div class="log-entry">
+                                <span class="log-timestamp">[2025-09-29 19:32:45]</span>
+                                <span class="log-level log-info">[INFO]</span>
+                                <span>Threat detection scan completed - 0 threats found</span>
+                            </div>
+                            <div class="log-entry">
+                                <span class="log-timestamp">[2025-01-15 14:33:10]</span>
+                                <span class="log-level log-info">[INFO]</span>
+                                <span>System startup completed successfully</span>
+                            </div>
+                            <div class="log-entry">
+                                <span class="log-timestamp">[2025-01-15 14:30:36]</span>
+                                <span class="log-level log-success">[SUCCESS]</span>
+                                <span>DDoS protection module loaded (version 2.1.3)</span>
+                            </div>
+                            <div class="log-entry">
+                                <span class="log-timestamp">[2025-01-15 14:30:01]</span>
+                                <span class="log-level log-success">[SUCCESS]</span>
+                                <span>SQL injection model loaded (version 1.8.7)</span>
+                            </div>
+                            <div class="log-entry">
+                                <span class="log-timestamp">[2025-01-15 14:29:05]</span>
+                                <span class="log-level log-warning">[WARNING]</span>
+                                <span>XSS model version 1.5.2 is outdated, update available</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card" style="grid-column: 1 / -1;">
+                        <div class="metric-header">
+                            <div class="metric-icon logs-icon">
+                                <i class="fas fa-info-circle"></i>
+                            </div>
+                            <div class="metric-title">Log Management</div>
+                        </div>
+                        <p style="color: #64748b; margin-bottom: 1rem;">
+                            System logs are automatically rotated weekly and retained for 90 days. Critical security events are permanently archived.
+                        </p>
+                        <p style="color: #64748b; font-size: 0.9rem;">
+                            <strong>Log levels:</strong> INFO (general information), WARNING (potential issues), ERROR (system errors), SUCCESS (successful operations)
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="network-management" class="tab-content">
+                <div class="section-title">Network Management</div>
+                
+                <div class="system-grid">
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <div class="metric-icon" style="background: #3b82f6;">
+                                <i class="fas fa-network-wired"></i>
+                            </div>
+                            <div class="metric-title">Sniffer Status</div>
+                        </div>
+                        <div id="snifferStatusIndicator" class="status-indicator status-unknown">
+                            <div class="status-dot"></div>
+                            <span>Loading...</span>
+                        </div>
+                        <div class="info-grid" style="margin-top: 16px;">
+                            <div class="info-item">
+                                <div class="info-label">Status</div>
+                                <div id="snifferStatusValue" class="info-value">Unknown</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Interface</div>
+                                <div id="snifferInterfaceValue" class="info-value">-</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">BPF Filter</div>
+                                <div id="snifferBpfValue" class="info-value">-</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">API Base</div>
+                                <div id="snifferApiValue" class="info-value">-</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <div class="metric-icon" style="background: #10b981;">
+                                <i class="fas fa-cog"></i>
+                            </div>
+                            <div class="metric-title">Sniffer Configuration</div>
+                        </div>
+                        
+                        <form id="snifferConfigForm">
+                            <div class="form-group">
+                                <label class="form-label">Enable Sniffer</label>
+                                <select id="enabledSelect" class="form-select">
+                                    <option value="true">Enabled</option>
+                                    <option value="false">Disabled</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Network Interface</label>
+                                <select id="interfaceSelect" class="form-select">
+                                    <option value="">Auto-detect</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">BPF Filter</label>
+                                <textarea id="bpfFilter" class="form-textarea" placeholder="tcp port 80 or tcp port 443" style="min-height: 60px;">tcp port 80 or tcp port 443</textarea>
+                                <small style="color: #6b7280; font-size: 0.75rem;">
+                                    Berkeley Packet Filter expression for traffic filtering
+                                </small>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">API Base URL</label>
+                                <input type="url" id="apiBase" class="form-input" placeholder="http://127.0.0.1:5000">
+                            </div>
+
+                            <button type="submit" class="btn btn-primary" style="width: 100%;">
+                                <i class="fas fa-save"></i>
+                                Save Configuration
+                            </button>
+                        </form>
+                    </div>
+
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <div class="metric-icon" style="background: #f59e0b;">
+                                <i class="fas fa-tools"></i>
+                            </div>
+                            <div class="metric-title">Sniffer Actions</div>
+                        </div>
+                        
+                        <div style="display: flex; flex-direction: column; gap: 12px;">
+                            <button id="refreshStatusBtn" class="btn btn-secondary">
+                                <i class="fas fa-sync-alt"></i>
+                                Refresh Status
+                            </button>
+                            
+                            <button id="loadInterfacesBtn" class="btn btn-secondary">
+                                <i class="fas fa-list"></i>
+                                Load Interfaces
+                            </button>
+                            
+                            <button id="testConnectionBtn" class="btn btn-secondary">
+                                <i class="fas fa-plug"></i>
+                                Test Connection
+                            </button>
+                            
+                            <div style="border-top: 1px solid #e2e8f0; padding-top: 16px; margin-top: 8px;">
+                                <p style="font-size: 0.875rem; color: #6b7280; margin-bottom: 12px;">
+                                    <i class="fas fa-info-circle"></i>
+                                    Configuration changes require a server restart to take effect.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="metric-card" style="grid-column: 1 / -1;">
+                        <div class="metric-header">
+                            <div class="metric-icon" style="background: #8b5cf6;">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <div class="metric-title">Network Statistics</div>
+                        </div>
+                        <div id="networkStats" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px;">
+                            <div class="info-item">
+                                <div class="info-label">Packets Captured</div>
+                                <div id="packetsCaptured" class="info-value">0</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">HTTP Requests</div>
+                                <div id="httpRequests" class="info-value">0</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">DDoS Detections</div>
+                                <div id="ddosDetections" class="info-value">0</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Attack Rate</div>
+                                <div id="attackRate" class="info-value">0%</div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+    <script>
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            document.getElementById(tabName).classList.add('active');
+            
+            event.target.closest('.tab').classList.add('active');
+            
+            // Initialize sniffer management when network management tab is selected
+            if (tabName === 'network-management') {
+                setTimeout(() => {
+                    initializeSnifferManagement();
+                }, 100);
+            }
+        }
+
+        function saveChanges() {
+            const btn = document.querySelector('.save-btn');
+            const originalText = btn.innerHTML;
+            
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+            btn.disabled = true;
+            
+            setTimeout(() => {
+                btn.innerHTML = '<i class="fas fa-check"></i> Saved!';
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                }, 1000);
+            }, 1500);
+        }
+
+        function addUser() {
+            const name = prompt('Enter user name:');
+            const email = prompt('Enter user email:');
+            const role = prompt('Enter user role (Admin/Analyst/Viewer):') || 'Viewer';
+            
+            if (name && email) {
+                const table = document.getElementById('users-table').getElementsByTagName('tbody')[0];
+                const newRow = table.insertRow();
+                
+                const roleClass = role.toLowerCase() === 'admin' ? 'role-admin' : 
+                                role.toLowerCase() === 'analyst' ? 'role-analyst' : 'role-viewer';
+                
+                newRow.innerHTML = `
+                    <td>${name}</td>
+                    <td>${email}</td>
+                    <td><span class="role-badge ${roleClass}">${role}</span></td>
+                    <td><span class="status-active"><span class="status-dot"></span>Active</span></td>
+                    <td>Just now</td>
+                    <td>
+                        <button class="action-btn edit-btn" onclick="editUser(this)">
+                            <i class="fas fa-edit"></i> Edit
+                        </button>
+                        <button class="action-btn delete-btn" onclick="deleteUser(this)">
+                            <i class="fas fa-trash"></i> Delete
+                        </button>
+                    </td>
+                `;
+                
+                newRow.style.opacity = '0';
+                newRow.style.transform = 'translateY(-10px)';
+                setTimeout(() => {
+                    newRow.style.transition = 'all 0.3s ease';
+                    newRow.style.opacity = '1';
+                    newRow.style.transform = 'translateY(0)';
+                }, 100);
+            }
+        }
+
+        function editUser(button) {
+            const row = button.closest('tr');
+            const cells = row.getElementsByTagName('td');
+            
+            const name = prompt('Edit name:', cells[0].textContent);
+            const email = prompt('Edit email:', cells[1].textContent);
+            const currentRole = cells[2].textContent.trim();
+            const role = prompt('Edit role (Admin/Analyst/Viewer):', currentRole) || currentRole;
+            
+            if (name && email) {
+                const roleClass = role.toLowerCase() === 'admin' ? 'role-admin' : 
+                                role.toLowerCase() === 'analyst' ? 'role-analyst' : 'role-viewer';
+                
+                cells[0].textContent = name;
+                cells[1].textContent = email;
+                cells[2].innerHTML = `<span class="role-badge ${roleClass}">${role}</span>`;
+                cells[4].textContent = 'Just updated';
+                
+                row.style.backgroundColor = '#e0f2fe';
+                setTimeout(() => {
+                    row.style.backgroundColor = '';
+                    row.style.transition = 'background-color 0.3s ease';
+                }, 300);
+            }
+        }
+
+        function deleteUser(button) {
+            if (confirm('Are you sure you want to delete this user?')) {
+                const row = button.closest('tr');
+                row.style.transition = 'all 0.3s ease';
+                row.style.opacity = '0';
+                row.style.transform = 'translateX(-20px)';
+                
+                setTimeout(() => {
+                    row.remove();
+                }, 300);
+            }
+        }
+
+        function addLogEntry(timestamp, level, message) {
+            const logsContainer = document.getElementById('logs-container');
+            const newEntry = document.createElement('div');
+            newEntry.className = 'log-entry';
+            
+            const levelClass = level.toLowerCase().replace(/[\[\]]/g, '').replace(' ', '-');
+            
+            newEntry.innerHTML = `
+                <span class="log-timestamp">[${timestamp}]</span>
+                <span class="log-level log-${levelClass}">${level}</span>
+                <span>${message}</span>
+            `;
+            
+            logsContainer.insertBefore(newEntry, logsContainer.firstChild);
+            
+            const entries = logsContainer.getElementsByClassName('log-entry');
+            if (entries.length > 20) {
+                logsContainer.removeChild(entries[entries.length - 1]);
+            }
+            
+            newEntry.style.opacity = '0';
+            newEntry.style.transform = 'translateY(-10px)';
+            setTimeout(() => {
+                newEntry.style.transition = 'all 0.3s ease';
+                newEntry.style.opacity = '1';
+                newEntry.style.transform = 'translateY(0)';
+            }, 100);
+        }
+
+        // Sniffer Management Functions
+        let currentSnifferConfig = {};
+
+        // Show alert for sniffer operations
+        function showSnifferAlert(message, type = 'info') {
+            // Create a simple alert system
+            const alert = document.createElement('div');
+            alert.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 12px 16px;
+                border-radius: 6px;
+                color: white;
+                font-size: 0.875rem;
+                z-index: 10000;
+                max-width: 300px;
+                ${type === 'error' ? 'background: #ef4444;' : 
+                  type === 'success' ? 'background: #10b981;' : 
+                  type === 'warning' ? 'background: #f59e0b;' : 'background: #3b82f6;'}
+            `;
+            alert.textContent = message;
+            document.body.appendChild(alert);
+            
+            setTimeout(() => {
+                alert.remove();
+            }, 5000);
+        }
+
+        // Update sniffer status indicator
+        function updateSnifferStatusIndicator(status) {
+            const indicator = document.getElementById('snifferStatusIndicator');
+            const statusValue = document.getElementById('snifferStatusValue');
+            
+            if (status.available && status.enabled) {
+                indicator.className = 'status-indicator status-running';
+                indicator.innerHTML = '<div class="status-dot"></div><span>Running</span>';
+                statusValue.textContent = 'Running';
+            } else if (status.available && !status.enabled) {
+                indicator.className = 'status-indicator status-stopped';
+                indicator.innerHTML = '<div class="status-dot"></div><span>Stopped</span>';
+                statusValue.textContent = 'Stopped';
+            } else {
+                indicator.className = 'status-indicator status-unknown';
+                indicator.innerHTML = '<div class="status-dot"></div><span>Unavailable</span>';
+                statusValue.textContent = 'Unavailable';
+            }
+        }
+
+        // Load sniffer status
+        async function loadSnifferStatus() {
+            try {
+                const response = await fetch('http://localhost:5000/sniffer/status');
+                const data = await response.json();
+                
+                if (response.ok) {
+                    currentSnifferConfig = data;
+                    updateSnifferStatusIndicator(data);
+                    
+                    document.getElementById('snifferInterfaceValue').textContent = data.interface || 'Auto';
+                    document.getElementById('snifferBpfValue').textContent = data.bpf_filter;
+                    document.getElementById('snifferApiValue').textContent = data.api_base;
+                    
+                    // Update form
+                    document.getElementById('enabledSelect').value = data.enabled ? 'true' : 'false';
+                    document.getElementById('bpfFilter').value = data.bpf_filter;
+                    document.getElementById('apiBase').value = data.api_base;
+                } else {
+                    showSnifferAlert(`Failed to load status: ${data.error}`, 'error');
+                }
+            } catch (error) {
+                showSnifferAlert(`Error loading status: ${error.message}`, 'error');
+            }
+        }
+
+        // Load network interfaces
+        async function loadInterfaces() {
+            try {
+                const response = await fetch('http://localhost:5000/sniffer/interfaces');
+                const data = await response.json();
+                
+                if (response.ok) {
+                    const select = document.getElementById('interfaceSelect');
+                    select.innerHTML = '<option value="">Auto-detect</option>';
+                    
+                    data.interfaces.forEach(iface => {
+                        const option = document.createElement('option');
+                        option.value = iface.name;
+                        option.textContent = `${iface.name} (${iface.ip})`;
+                        if (iface.name === currentSnifferConfig.interface) {
+                            option.selected = true;
+                        }
+                        select.appendChild(option);
+                    });
+                    
+                    showSnifferAlert('Network interfaces loaded successfully', 'success');
+                } else {
+                    showSnifferAlert(`Failed to load interfaces: ${data.error}`, 'error');
+                }
+            } catch (error) {
+                showSnifferAlert(`Error loading interfaces: ${error.message}`, 'error');
+            }
+        }
+
+        // Save sniffer configuration
+        async function saveSnifferConfiguration() {
+            const config = {
+                enabled: document.getElementById('enabledSelect').value === 'true',
+                interface: document.getElementById('interfaceSelect').value,
+                bpf_filter: document.getElementById('bpfFilter').value,
+                api_base: document.getElementById('apiBase').value
+            };
+
+            try {
+                const response = await fetch('http://localhost:5000/sniffer/config', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(config)
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    showSnifferAlert(data.message, 'success');
+                    await loadSnifferStatus();
+                } else {
+                    showSnifferAlert(`Failed to save configuration: ${data.error}`, 'error');
+                }
+            } catch (error) {
+                showSnifferAlert(`Error saving configuration: ${error.message}`, 'error');
+            }
+        }
+
+        // Test connection
+        async function testSnifferConnection() {
+            try {
+                const response = await fetch('http://localhost:5000/health');
+                const data = await response.json();
+                
+                if (response.ok) {
+                    showSnifferAlert('Connection test successful', 'success');
+                } else {
+                    showSnifferAlert('Connection test failed', 'error');
+                }
+            } catch (error) {
+                showSnifferAlert(`Connection test failed: ${error.message}`, 'error');
+            }
+        }
+
+        // Initialize sniffer functionality when network management tab is loaded
+        function initializeSnifferManagement() {
+            // Add event listeners for sniffer functionality
+            const snifferForm = document.getElementById('snifferConfigForm');
+            if (snifferForm) {
+                snifferForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    saveSnifferConfiguration();
+                });
+            }
+
+            const refreshBtn = document.getElementById('refreshStatusBtn');
+            if (refreshBtn) {
+                refreshBtn.addEventListener('click', loadSnifferStatus);
+            }
+
+            const loadInterfacesBtn = document.getElementById('loadInterfacesBtn');
+            if (loadInterfacesBtn) {
+                loadInterfacesBtn.addEventListener('click', loadInterfaces);
+            }
+
+            const testConnectionBtn = document.getElementById('testConnectionBtn');
+            if (testConnectionBtn) {
+                testConnectionBtn.addEventListener('click', testSnifferConnection);
+            }
+
+            // Load initial status
+            loadSnifferStatus();
+        }
+
+
+        function simulateLogUpdates() {
+            const logMessages = [
+                { level: '[INFO]', message: 'Security scan completed successfully' },
+                { level: '[SUCCESS]', message: 'Firewall rules updated' },
+                { level: '[WARNING]', message: 'Unusual traffic pattern detected' },
+                { level: '[INFO]', message: 'User session expired for inactive user' },
+                { level: '[SUCCESS]', message: 'Backup process completed' },
+                { level: '[INFO]', message: 'API request processed successfully' },
+                { level: '[WARNING]', message: 'High CPU usage detected on server-02' }
+            ];
+            
+            setInterval(() => {
+                const now = new Date();
+                const timestamp = now.toISOString().slice(0, 19).replace('T', ' ');
+                const randomMessage = logMessages[Math.floor(Math.random() * logMessages.length)];
+                
+                addLogEntry(timestamp, randomMessage.level, randomMessage.message);
+            }, 10000);
+        }
+
+        let sidebarVisible = true;
+
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const content = document.getElementById('mainContent');
+            
+            sidebarVisible = !sidebarVisible;
+            
+            if (window.innerWidth <= 768) {
+                sidebar.classList.toggle('visible');
+            } else {
+                sidebar.classList.toggle('hidden');
+                content.classList.toggle('expanded');
+            }
+        }
+
+        function navigateTo(page) {
+            if (page === 'dashboard') {
+                window.location.href = 'dash2.html';
+            }
+        }
+
+        window.addEventListener('resize', function() {
+            const sidebar = document.getElementById('sidebar');
+            const content = document.getElementById('mainContent');
+            
+            if (window.innerWidth > 768) {
+                sidebar.classList.remove('visible');
+                if (!sidebarVisible) {
+                    sidebar.classList.add('hidden');
+                    content.classList.add('expanded');
+                }
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(simulateLogUpdates, 5000);
+            
+            document.addEventListener('keydown', function(e) {
+                if (e.altKey && e.key === 'u') {
+                    e.preventDefault();
+                    document.querySelector('.tab').click();
+                }
+                if (e.altKey && e.key === 's') {
+                    e.preventDefault();
+                    document.querySelectorAll('.tab')[1].click();
+                }
+                if (e.ctrlKey && e.key === 's') {
+                    e.preventDefault();
+                    saveChanges();
+                }
+            });
+
+            document.querySelectorAll('.form-input, .form-select').forEach(input => {
+                input.addEventListener('change', function() {
+                    const saveBtn = document.querySelector('.save-btn');
+                    if (!saveBtn.classList.contains('changed')) {
+                        saveBtn.classList.add('changed');
+                        saveBtn.style.backgroundColor = '#f59e0b';
+                        saveBtn.innerHTML = '<i class="fas fa-save"></i> Save Changes*';
+                    }
+                });
+            });
+
+            if (window.innerWidth <= 768) {
+                document.getElementById('sidebar').classList.add('hidden');
+            }
+        });
+    </script>
+
+
+    </body>
+</html>

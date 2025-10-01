@@ -28,10 +28,7 @@ try:
         log_warning,
         log_error,
         log_critical,
-        log_debug,
-        log_ddos_attack,
-        log_injection_attack,
-        log_security_event
+        log_debug
     )
     STORAGE_AVAILABLE = True
 except ImportError:
@@ -722,15 +719,15 @@ def create_app() -> Flask:
 
     # Initialize injection detection middleware
     if INJECTION_SERVICE_AVAILABLE:
-        injection_middleware = InjectionDetectionMiddleware(
-            app,
-            detection_threshold=0.5,
-            monitored_endpoints=['/api/', '/admin/', '/login', '/search', '/events', '/analyze'],
-            monitor_all_endpoints=False,
-            block_attacks=False,  # Set to True to block attacks
-            log_attacks=True,
-            include_monitoring_headers=True
-        )
+    injection_middleware = InjectionDetectionMiddleware(
+        app,
+        detection_threshold=0.5,
+        monitored_endpoints=['/api/', '/admin/', '/login', '/search', '/events', '/analyze'],
+        monitor_all_endpoints=False,
+        block_attacks=False,  # Set to True to block attacks
+        log_attacks=True,
+        include_monitoring_headers=True
+    )
         print("✅ Injection detection middleware initialized")
     else:
         print("⚠️ Injection detection middleware not available")
@@ -903,7 +900,7 @@ def create_app() -> Flask:
         """Get injection detection analytics."""
         if INJECTION_AVAILABLE:
             try:
-                from detection.injection import get_injection_statistics
+        from detection.injection import get_injection_statistics
                 stats = get_injection_statistics()
             except:
                 stats = {"total_detections": 0, "error": "Statistics not available"}
@@ -929,8 +926,8 @@ def create_app() -> Flask:
         """Get DDoS detection analytics."""
         if DDOS_AVAILABLE:
             try:
-                from detection.ddos import get_ddos_statistics
-                return jsonify(get_ddos_statistics()), 200
+        from detection.ddos import get_ddos_statistics
+        return jsonify(get_ddos_statistics()), 200
             except:
                 return jsonify({"error": "DDoS statistics not available"}), 503
         else:
@@ -944,19 +941,19 @@ def create_app() -> Flask:
             return jsonify({"error": "Monitoring not available"}), 503
 
         try:
-            monitor = get_endpoint_monitor()
-            with monitor.lock:
-                return jsonify({
-                    'total_requests_monitored': monitor.total_requests_monitored,
-                    'total_parameters_analyzed': monitor.total_parameters_analyzed,
-                    'injection_attempts_detected': monitor.injection_attempts_detected,
-                    'monitored_endpoints': list(monitor.monitored_endpoints) if not monitor.monitor_all_endpoints else 'ALL',
-                    'monitor_all_endpoints': monitor.monitor_all_endpoints,
-                    'detection_threshold': monitor.detection_threshold,
-                    'recent_alerts_count': len(monitor.recent_alerts),
-                    'endpoint_statistics': dict(monitor.endpoint_stats),
-                    'detector_available': monitor.detector is not None
-                }), 200
+        monitor = get_endpoint_monitor()
+        with monitor.lock:
+            return jsonify({
+                'total_requests_monitored': monitor.total_requests_monitored,
+                'total_parameters_analyzed': monitor.total_parameters_analyzed,
+                'injection_attempts_detected': monitor.injection_attempts_detected,
+                'monitored_endpoints': list(monitor.monitored_endpoints) if not monitor.monitor_all_endpoints else 'ALL',
+                'monitor_all_endpoints': monitor.monitor_all_endpoints,
+                'detection_threshold': monitor.detection_threshold,
+                'recent_alerts_count': len(monitor.recent_alerts),
+                'endpoint_statistics': dict(monitor.endpoint_stats),
+                'detector_available': monitor.detector is not None
+            }), 200
         except Exception as e:
             return jsonify({"error": str(e)}), 500
 
@@ -967,13 +964,13 @@ def create_app() -> Flask:
             return jsonify({"error": "Monitoring not available"}), 503
 
         try:
-            monitor = get_endpoint_monitor()
-            limit = request.args.get('limit', 100, type=int)
+        monitor = get_endpoint_monitor()
+        limit = request.args.get('limit', 100, type=int)
 
-            with monitor.lock:
-                alerts = monitor.recent_alerts[-limit:] if limit else monitor.recent_alerts.copy()
+        with monitor.lock:
+            alerts = monitor.recent_alerts[-limit:] if limit else monitor.recent_alerts.copy()
 
-            return jsonify(alerts), 200
+        return jsonify(alerts), 200
         except Exception as e:
             return jsonify({"error": str(e)}), 500
 
@@ -984,26 +981,26 @@ def create_app() -> Flask:
             return jsonify({"error": "Monitoring not available"}), 503
 
         try:
-            monitor = get_endpoint_monitor()
-            config = request.get_json() or {}
+        monitor = get_endpoint_monitor()
+        config = request.get_json() or {}
 
-            if 'threshold' in config:
-                monitor.detection_threshold = float(config['threshold'])
+        if 'threshold' in config:
+            monitor.detection_threshold = float(config['threshold'])
 
-            if 'monitored_endpoints' in config:
-                monitor.monitored_endpoints = set(config['monitored_endpoints'])
+        if 'monitored_endpoints' in config:
+            monitor.monitored_endpoints = set(config['monitored_endpoints'])
 
-            if 'monitor_all_endpoints' in config:
-                monitor.monitor_all_endpoints = bool(config['monitor_all_endpoints'])
+        if 'monitor_all_endpoints' in config:
+            monitor.monitor_all_endpoints = bool(config['monitor_all_endpoints'])
 
-            return jsonify({
-                'message': 'Configuration updated',
-                'config': {
-                    'threshold': monitor.detection_threshold,
-                    'monitored_endpoints': list(monitor.monitored_endpoints),
-                    'monitor_all_endpoints': monitor.monitor_all_endpoints
-                }
-            }), 200
+        return jsonify({
+            'message': 'Configuration updated',
+            'config': {
+                'threshold': monitor.detection_threshold,
+                'monitored_endpoints': list(monitor.monitored_endpoints),
+                'monitor_all_endpoints': monitor.monitor_all_endpoints
+            }
+        }), 200
         except Exception as e:
             return jsonify({"error": str(e)}), 500
 
@@ -1212,52 +1209,6 @@ def create_app() -> Flask:
         except Exception as e:
             return jsonify({"error": str(e)}), 500
 
-    # Specialized log endpoints
-    @app.route("/logs/ddos", methods=['GET'])
-    def get_ddos_logs() -> Any:
-        """Get DDoS logs with optional filtering"""
-        if not STORAGE_AVAILABLE:
-            return jsonify({"error": "Logging not available"}), 503
-
-        try:
-            source_ip = request.args.get('source_ip')
-            limit = request.args.get('limit', type=int)
-            
-            logs = log_store.get_ddos_logs(limit=limit, source_ip=source_ip)
-            return jsonify({'ddos_logs': logs}), 200
-        except Exception as e:
-            return jsonify({"error": str(e)}), 500
-
-    @app.route("/logs/injection", methods=['GET'])
-    def get_injection_logs() -> Any:
-        """Get injection logs with optional filtering"""
-        if not STORAGE_AVAILABLE:
-            return jsonify({"error": "Logging not available"}), 503
-
-        try:
-            source_ip = request.args.get('source_ip')
-            limit = request.args.get('limit', type=int)
-            
-            logs = log_store.get_injection_logs(limit=limit, source_ip=source_ip)
-            return jsonify({'injection_logs': logs}), 200
-        except Exception as e:
-            return jsonify({"error": str(e)}), 500
-
-    @app.route("/logs/security", methods=['GET'])
-    def get_security_logs() -> Any:
-        """Get security logs with optional filtering"""
-        if not STORAGE_AVAILABLE:
-            return jsonify({"error": "Logging not available"}), 503
-
-        try:
-            source_ip = request.args.get('source_ip')
-            limit = request.args.get('limit', type=int)
-            
-            logs = log_store.get_security_logs(limit=limit, source_ip=source_ip)
-            return jsonify({'security_logs': logs}), 200
-        except Exception as e:
-            return jsonify({"error": str(e)}), 500
-
     # Example monitored endpoints to demonstrate functionality
     @app.route('/api/users')
     def get_users() -> Any:
@@ -1354,15 +1305,15 @@ def create_app() -> Flask:
         
         # DDoS analysis
         if DDOS_AVAILABLE:
-            ddos_record_request(source_ip, path, method, user_agent, country)
-            ddos_analysis = analyze_ddos_threat(source_ip)
+        ddos_record_request(source_ip, path, method, user_agent, country)
+        ddos_analysis = analyze_ddos_threat(source_ip)
         else:
             ddos_analysis = {"error": "DDoS detection not available"}
         
         # Injection analysis
         if INJECTION_AVAILABLE:
-            path_injection_analysis = analyze_injection_signature(path)
-            body_injection_analysis = analyze_injection_signature(body)
+        path_injection_analysis = analyze_injection_signature(path)
+        body_injection_analysis = analyze_injection_signature(body)
         else:
             path_injection_analysis = {"error": "Injection detection not available"}
             body_injection_analysis = {"error": "Injection detection not available"}
@@ -1382,56 +1333,19 @@ def create_app() -> Flask:
 
         # Log if threats were detected
         if STORAGE_AVAILABLE:
-            # Log injection attacks
             if result.get('injection_analysis', {}).get('body', {}).get('has_injection', False):
-                body_analysis = result['injection_analysis']['body']
-                log_injection_attack(
-                    source_ip=source_ip,
-                    attack_type=body_analysis.get('attack_type', 'unknown'),
-                    confidence=body_analysis.get('confidence', 0.0),
-                    payload=body,
-                    endpoint=path,
-                    method=method,
-                    user_agent=user_agent,
-                    country=country,
-                    details={
-                        'path_analysis': result['injection_analysis'].get('path', {}),
-                        'body_analysis': body_analysis
-                    }
-                )
+                log_warning(f"Injection attack detected from {source_ip}", LogType.SECURITY, "analyze", {
+                    'source_ip': source_ip,
+                    'path': path,
+                    'attack_type': result['injection_analysis']['body'].get('attack_type'),
+                    'confidence': result['injection_analysis']['body'].get('confidence')
+                })
 
-            # Log DDoS attacks
-            ddos_analysis = result.get('ddos_analysis', {})
-            if ddos_analysis.get('confidence', 0) > 0.7:
-                log_ddos_attack(
-                    source_ip=source_ip,
-                    attack_type=ddos_analysis.get('attack_type', 'volume_based'),
-                    confidence=ddos_analysis.get('confidence', 0.0),
-                    severity=ddos_analysis.get('severity', 'medium'),
-                    request_count=ddos_analysis.get('request_count', 0),
-                    time_window=ddos_analysis.get('time_window', 0),
-                    user_agent=user_agent,
-                    country=country,
-                    path=path,
-                    method=method,
-                    details=ddos_analysis
-                )
-
-            # Log security events for high-risk activities
-            if result.get('whitelisted', False) and result.get('whitelist_confidence', 0) < 0.5:
-                log_security_event(
-                    event_type="suspicious_whitelist",
-                    source_ip=source_ip,
-                    user_agent=user_agent,
-                    country=country,
-                    endpoint=path,
-                    method=method,
-                    threat_level="medium",
-                    details={
-                        'whitelist_confidence': result.get('whitelist_confidence'),
-                        'whitelist_reason': result.get('whitelist_reason')
-                    }
-                )
+            if result.get('ddos_analysis', {}).get('confidence', 0) > 0.7:
+                log_warning(f"High DDoS probability from {source_ip}", LogType.DDoS, "analyze", {
+                    'source_ip': source_ip,
+                    'confidence': result['ddos_analysis'].get('confidence')
+                })
 
         # Add endpoint monitoring results if available
         monitoring_results = getattr(g, 'injection_monitoring', {})
@@ -1465,8 +1379,8 @@ def create_app() -> Flask:
 
         # Enhanced DDoS detection with additional metadata
         if DDOS_AVAILABLE:
-            ddos_record_request(source_ip, path, method, user_agent, country)
-            ddos_flag = is_ddos(source_ip)
+        ddos_record_request(source_ip, path, method, user_agent, country)
+        ddos_flag = is_ddos(source_ip)
             ddos_analysis = analyze_ddos_threat(source_ip)
         else:
             ddos_flag = False
@@ -1474,9 +1388,9 @@ def create_app() -> Flask:
         
         # Enhanced injection detection with confidence scoring
         if INJECTION_AVAILABLE:
-            path_injection_analysis = analyze_injection_signature(path)
-            body_injection_analysis = analyze_injection_signature(body)
-            
+        path_injection_analysis = analyze_injection_signature(path)
+        body_injection_analysis = analyze_injection_signature(body)
+        
             injection_flag = (path_injection_analysis.get("has_injection", False) or 
                              body_injection_analysis.get("has_injection", False))
         else:

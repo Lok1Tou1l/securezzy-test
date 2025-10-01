@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Content</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8fafc;
+            color: #1e293b;
+            padding: 24px;
+        }
+
+        .test-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .test-title {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #0f172a;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .test-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            max-width: 1200px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            border: 1px solid #e2e8f0;
+            overflow: hidden;
+        }
+
+        .card-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #e2e8f0;
+            background: #f8fafc;
+        }
+
+        .card-header h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #0f172a;
+            margin: 0;
+        }
+
+        .form-container {
+            padding: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #374151;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            font-size: 0.9rem;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .btn {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s;
+            font-size: 0.9rem;
+        }
+
+        .btn:hover {
+            background: #1d4ed8;
+            transform: translateY(-1px);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-primary {
+            background: #2563eb;
+        }
+
+        .btn-primary:hover {
+            background: #1d4ed8;
+        }
+
+        .results-container {
+            padding: 1.5rem;
+            min-height: 200px;
+        }
+
+        .no-results {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 200px;
+            color: #6b7280;
+            text-align: center;
+        }
+
+        .no-results i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 200px;
+            color: #6b7280;
+        }
+
+        .loading i {
+            margin-right: 0.5rem;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .analysis-result {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .analysis-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #0f172a;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .analysis-detail {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .analysis-detail:last-child {
+            border-bottom: none;
+        }
+
+        .detail-label {
+            font-weight: 500;
+            color: #374151;
+        }
+
+        .detail-value {
+            font-weight: 600;
+            color: #0f172a;
+        }
+
+        .detail-value.safe {
+            color: #16a34a;
+        }
+
+        .detail-value.threat {
+            color: #dc2626;
+        }
+
+        .detail-value.font-mono {
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .text-red {
+            color: #dc2626;
+        }
+
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .toast {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            animation: slideIn 0.3s ease-out;
+        }
+
+        .toast.success {
+            border-left: 4px solid #16a34a;
+        }
+
+        .toast.error {
+            border-left: 4px solid #dc2626;
+        }
+
+        .toast.info {
+            border-left: 4px solid #2563eb;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(100%);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .test-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            body {
+                padding: 1rem;
+            }
+
+            .test-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="test-header">
+        <h1 class="test-title">
+            <i class="fas fa-vial"></i>
+            Security Test Center
+        </h1>
+    </div>
+
+    <div class="test-grid">
+        <!-- Request Analyzer -->
+        <div class="card">
+            <div class="card-header">
+                <h3>Request Analyzer</h3>
+            </div>
+            <div class="form-container">
+                <div class="form-group">
+                    <label for="testIP">Source IP</label>
+                    <input type="text" id="testIP" placeholder="192.168.1.100" value="127.0.0.1">
+                </div>
+                <div class="form-group">
+                    <label for="testPath">Path</label>
+                    <input type="text" id="testPath" placeholder="/api/users?id=1" value="/api/test">
+                </div>
+                <div class="form-group">
+                    <label for="testMethod">Method</label>
+                    <select id="testMethod">
+                        <option value="GET">GET</option>
+                        <option value="POST" selected>POST</option>
+                        <option value="PUT">PUT</option>
+                        <option value="DELETE">DELETE</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="testBody">Body</label>
+                    <textarea id="testBody" placeholder='{"username": "admin", "password": "test"}'></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="testUserAgent">User Agent</label>
+                    <input type="text" id="testUserAgent" placeholder="Mozilla/5.0..." value="Test-Agent/1.0">
+                </div>
+                <div class="form-group">
+                    <label for="testCountry">Country</label>
+                    <input type="text" id="testCountry" placeholder="US" value="XX">
+                </div>
+                <button class="btn btn-primary" onclick="analyzeRequest()">
+                    <i class="fas fa-search"></i> Analyze Request
+                </button>
+            </div>
+        </div>
+
+        <!-- Analysis Results -->
+        <div class="card">
+            <div class="card-header">
+                <h3>Analysis Results</h3>
+            </div>
+            <div class="results-container" id="analysisResults">
+                <div class="no-results">
+                    <i class="fas fa-flask"></i>
+                    <p>Run an analysis to see results</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script>
+        async function analyzeRequest() {
+            const data = {
+                source_ip: document.getElementById('testIP').value || '127.0.0.1',
+                path: document.getElementById('testPath').value || '/',
+                method: document.getElementById('testMethod').value,
+                body: document.getElementById('testBody').value || '',
+                user_agent: document.getElementById('testUserAgent').value || 'Test-Agent/1.0',
+                country: document.getElementById('testCountry').value || 'XX'
+            };
+
+            const resultsContainer = document.getElementById('analysisResults');
+            resultsContainer.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i> Analyzing request...</div>';
+
+            try {
+                const response = await fetch('/analyze', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    displayAnalysisResults(result);
+                } else {
+                    resultsContainer.innerHTML = '<div class="text-center text-red">Error analyzing request</div>';
+                }
+            } catch (error) {
+                console.error('Analysis error:', error);
+                resultsContainer.innerHTML = '<div class="text-center text-red">Network error during analysis</div>';
+            }
+        }
+
+        function displayAnalysisResults(result) {
+            const container = document.getElementById('analysisResults');
+
+            const whitelistStatus = result.whitelisted ? 
+                '<span class="detail-value safe">YES</span>' : 
+                '<span class="detail-value">NO</span>';
+
+            const ddosThreat = result.ddos_analysis?.confidence > 0.5 ? 
+                '<span class="detail-value threat">HIGH RISK</span>' : 
+                '<span class="detail-value safe">LOW RISK</span>';
+
+            const injectionThreat = Math.max(
+                result.injection_analysis?.path?.confidence || 0,
+                result.injection_analysis?.body?.confidence || 0
+            ) > 0.5 ? '<span class="detail-value threat">DETECTED</span>' : 
+                '<span class="detail-value safe">CLEAN</span>';
+
+            container.innerHTML = `
+                <div class="analysis-result">
+                    <div class="analysis-title">
+                        <i class="fas fa-shield-alt"></i>
+                        Security Analysis Results
+                    </div>
+                    <div class="analysis-detail">
+                        <span class="detail-label">Whitelisted:</span>
+                        ${whitelistStatus}
+                    </div>
+                    <div class="analysis-detail">
+                        <span class="detail-label">DDoS Risk:</span>
+                        ${ddosThreat}
+                    </div>
+                    <div class="analysis-detail">
+                        <span class="detail-label">Injection Detection:</span>
+                        ${injectionThreat}
+                    </div>
+                    <div class="analysis-detail">
+                        <span class="detail-label">Anomaly Score:</span>
+                        <span class="detail-value">${result.anomaly_score !== null ? (result.anomaly_score * 100).toFixed(1) + '%' : 'N/A'}</span>
+                    </div>
+                </div>
+
+                <div class="analysis-result">
+                    <div class="analysis-title">
+                        <i class="fas fa-bomb"></i>
+                        DDoS Analysis Details
+                    </div>
+                    ${Object.entries(result.ddos_analysis || {}).map(([key, value]) => `
+                        <div class="analysis-detail">
+                            <span class="detail-label">${key.replace(/_/g, ' ')}:</span>
+                            <span class="detail-value">${typeof value === 'object' ? JSON.stringify(value) : value}</span>
+                        </div>
+                    `).join('')}
+                </div>
+
+                <div class="analysis-result">
+                    <div class="analysis-title">
+                        <i class="fas fa-bug"></i>
+                        Injection Analysis Details
+                    </div>
+                    <div class="analysis-detail">
+                        <span class="detail-label">Path Analysis:</span>
+                        <span class="detail-value">${result.injection_analysis?.path?.has_injection ? 'INJECTION DETECTED' : 'Clean'}</span>
+                    </div>
+                    <div class="analysis-detail">
+                        <span class="detail-label">Body Analysis:</span>
+                        <span class="detail-value">${result.injection_analysis?.body?.has_injection ? 'INJECTION DETECTED' : 'Clean'}</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        function showToast(message, type = 'info') {
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `
+                <div>${message}</div>
+            `;
+
+            const container = document.getElementById('toastContainer');
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.remove();
+            }, 5000);
+        }
+
+        // Add some sample data for testing
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set some sample test data
+            document.getElementById('testBody').value = '{"username": "admin", "password": "test123"}';
+            document.getElementById('testPath').value = '/api/login';
+        });
+    </script>
+</body>
+</html>
